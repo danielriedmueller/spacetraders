@@ -1,9 +1,6 @@
-@php /** @var \App\Models\MyAgent $myAgent */ @endphp
+@php /** @var \App\Models\Agent $agent */ @endphp
 <div>
-    <h2>{{ $myAgent->getSymbol() }}</h2>
-    <div>Credits: {{ $myAgent->getCredits() }}</div>
-    <div>
-        Headquarters: <a href="{{ url('waypoint', $myAgent->getHeadquarters()->getSymbol()) }}">{{ $myAgent->getHeadquarters()->getSymbol() }}</a>
-        <img src="{{ asset($myAgent->getHeadquarters()->getImagePath()) }}" alt="" title="">
-    </div>
+    <h2>{{ $agent->symbol }}</h2>
+    <div>Credits: {{ $agent->credits }}</div>
+    <x-waypoint symbol="{{ $agent->headquarters }}" />
 </div>

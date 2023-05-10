@@ -1,80 +1,72 @@
 <?php
+/**
+ * Waypoint
+ */
 
 namespace App\Models;
 
-class Waypoint
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
+/**
+ * Waypoint
+ * @description A waypoint is a location that ships can travel to such as a Planet, Moon or Space Station.
+ */
+class Waypoint extends ImageModel
 {
-    private string $symbol;
-    private ?string $type;
-    private ?string $x;
-    private ?string $y;
+    /** @var string $symbol */
+    public $symbol = "";
 
-    /** @var Waypoint[] */
-    private array $orbitals;
-    private ?string $factionSymbol;
+    /** @var string $type */
+    public $type = "";
 
-    /** @var STrait[] */
-    private array $traits;
-    private ?string $imagePath;
+    /** @var string $systemSymbol */
+    public $systemSymbol = "";
 
-    public function __construct(
-        string $symbol,
-        ?string $type,
-        ?string $x,
-        ?string $y,
-        array  $orbitals,
-        ?string $factionSymbol,
-        array  $traits,
-        ?string $imagePath,
-    )
+    /** @var int $x */
+    public $x = 0;
+
+    /** @var int $y */
+    public $y = 0;
+
+    /** @var \App\Models\WaypointOrbital[] $orbitals */
+    public $orbitals = [];
+
+    /** @var \App\Models\WaypointFaction $faction */
+    public $faction;
+
+    /** @var \App\Models\WaypointTrait[] $traits The traits of the waypoint. */
+    //public $traits = [];
+
+    /** @var \App\Models\Chart $chart */
+    public $chart;
+
+    protected function traits(): Attribute
     {
-        $this->symbol = $symbol;
-        $this->type = $type;
-        $this->x = $x;
-        $this->y = $y;
-        $this->orbitals = $orbitals;
-        $this->factionSymbol = $factionSymbol;
-        $this->traits = $traits;
-        $this->imagePath = $imagePath;
+        return Attribute::make(
+            get: fn (array $value) => array_map(function (array $trait) {
+                $waypointTrait = new WaypointTrait();
+                $waypointTrait->symbol = $trait['symbol'];
+                $waypointTrait->name = $trait['name'];
+                $waypointTrait->description = $trait['description'];
+                return $waypointTrait;
+            }, $value),
+            set: function (string $value) {
+              return strtolower($value);
+            }
+        );
     }
 
-    public function getSymbol(): string
+    public function getImageName(): string
     {
-        return $this->symbol;
+        return 'waypoint/waypoint-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
     }
 
-    public function getType(): ?string
+    public function getImagePrompt(): string
     {
-        return $this->type;
-    }
+        $prompt = $this->type;
+        $prompt .= ' ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits));
+        $prompt .= ' ' . $this->faction->symbol;
 
-    public function getX(): ?string
-    {
-        return $this->x;
-    }
-
-    public function getY(): ?string
-    {
-        return $this->y;
-    }
-
-    public function getOrbitals(): array
-    {
-        return $this->orbitals;
-    }
-
-    public function getFactionSymbol(): ?string
-    {
-        return $this->factionSymbol;
-    }
-
-    public function getTraits(): array
-    {
-        return $this->traits;
-    }
-
-    public function getImagePath(): string
-    {
-        return $this->imagePath ?? '';
+        return $prompt;
     }
 }

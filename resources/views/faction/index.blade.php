@@ -15,14 +15,11 @@
         @foreach($factions as $faction)
             <li>
                 <ul>
-                    <li><img src="{{ asset($faction->getImagePath()) }}" alt="" title=""></li>
-                    <li>{{ $faction->getName() }}</li>
-                    <li>{{ $faction->getDescription() }}</li>
-                    <li>
-                        Headquarters: <a href="{{ url('waypoint', $faction->getHeadquarters()->getSymbol()) }}">{{ $faction->getHeadquarters()->getSymbol() }}</a>
-                        <img src="{{ asset($faction->getHeadquarters()->getImagePath()) }}" alt="" title="">
-                    </li>
-                    <li>@include('view.traits', ['traits' => $orbital->getTraits()])</li>
+                    <li><img src="{{ asset($faction->image) }}"></li>
+                    <li>{{ $faction->name }}</li>
+                    <li>{{ $faction->description }}</li>
+                    <li><x-waypoint symbol="{{ $faction->headquarters }}" /></li>
+                    <li>@include('view.traits', ['traits' => $faction->traits])</li>
                 </ul>
             </li>
         @endforeach

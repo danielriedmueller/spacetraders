@@ -19,4 +19,4 @@ Route::get('/', fn () => view('cockpit'));
 
 Route::get('/factions', [FactionController::class, 'index']);
 
-Route::get('/waypoint/{symbol}', [WaypointController::class, 'show']);
+Route::get('/waypoint/{symbol}', fn (string $symbol) => view('waypoint.show', ['symbol' => $symbol]));

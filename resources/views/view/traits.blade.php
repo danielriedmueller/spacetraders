@@ -1,10 +1,11 @@
 <ul>
-    @php /** @var \App\Models\STrait[] $traits */ @endphp
+
+    @php /** @var \App\Models\WaypointTrait[] $traits */ @endphp
     @foreach($traits as $trait)
         <li>
             <ul>
-                <li>{{ $trait->getName() }}</li>
-                <li>{{ $trait->getDescription() }}</li>
+                <li>{{ $trait->name }}</li>
+                <li>{{ $trait->description }}</li>
             </ul>
         </li>
     @endforeach

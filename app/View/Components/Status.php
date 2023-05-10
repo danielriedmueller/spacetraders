@@ -3,22 +3,19 @@
 namespace App\View\Components;
 
 use App\Exceptions\InvalidRequestException;
-use App\Http\Request\AgentFetcher;
+use App\Http\Request\EntityFetcher;
+use App\Models\Agent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
 class Status extends Component
 {
-    private AgentFetcher $agentFetcher;
+    private EntityFetcher $fetcher;
 
-    /**
-     * Create a new component instance.
-     */
-    public function __construct(AgentFetcher $agentFetcher)
+    public function __construct(EntityFetcher $fetcher)
     {
-        //
-        $this->agentFetcher = $agentFetcher;
+        $this->fetcher = $fetcher;
     }
 
     /**
@@ -27,7 +24,7 @@ class Status extends Component
     public function render(): View|Closure|string
     {
         return view('components.status', [
-            'myAgent' => $this->agentFetcher->fetchMyAgent()
+            'agent' => $this->fetcher->fetchEntity('/my/agent', Agent::class),
         ]);
     }
 }

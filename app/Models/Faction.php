@@ -1,64 +1,37 @@
 <?php
-
+/**
+ * Faction
+ */
 namespace App\Models;
 
-class Faction
-{
-    private string $name;
-    private string $description;
-    private Waypoint $headquarters;
-    private string $symbol;
-    private ?string $imagePath;
+/**
+ * Faction
+ * @description
+ */
+class Faction extends ImageModel {
 
-    /**
-     * @var STrait[]
-     */
-    private array $traits;
+    /** @var string $symbol */
+    public $symbol = "";
 
-    public function __construct(
-        string   $name,
-        string   $description,
-        Waypoint $headquarters,
-        string   $symbol,
-        array    $traits,
-        ?string   $imagePath,
-    )
+    /** @var string $name */
+    public $name = "";
+
+    /** @var string $description */
+    public $description = "";
+
+    /** @var string $headquarters */
+    public $headquarters = "";
+
+    /** @var \App\Models\FactionTrait[] $traits */
+    public $traits = [];
+
+    public function getImageName(): string
     {
-        $this->name = $name;
-        $this->description = $description;
-        $this->headquarters = $headquarters;
-        $this->symbol = $symbol;
-        $this->traits = $traits;
-        $this->imagePath = $imagePath;
+        return 'faction/faction-' . str_replace(' ', '-', strtolower($this->name)) . '.png';
     }
 
-    public function getName(): string
+    public function getImagePrompt(): string
     {
-        return $this->name;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getHeadquarters(): Waypoint
-    {
-        return $this->headquarters;
-    }
-
-    public function getSymbol(): string
-    {
-        return $this->symbol;
-    }
-
-    public function getTraits(): array
-    {
-        return $this->traits;
-    }
-
-    public function getImagePath(): string
-    {
-        return $this->imagePath ?? '';
+        return 'Faction ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits));
     }
 }
