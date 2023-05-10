@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvalidRequestException;
+use App\Http\Request\FactionFetcher;
 use App\Models\Faction;
 use Illuminate\Http\Request;
 
 class FactionController extends Controller
 {
+    private FactionFetcher $factionFetcher;
+
+    public function __construct(FactionFetcher $factionFetcher)
+    {
+        $this->factionFetcher = $factionFetcher;
+    }
+
     /**
-     * Display a listing of the resource.
+     * @throws InvalidRequestException
      */
     public function index()
     {
-        //
+        return view('factions.index', [
+            'factions' => $this->factionFetcher->fetchFactions()
+        ]);
     }
 
     /**
