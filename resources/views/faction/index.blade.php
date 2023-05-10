@@ -19,22 +19,10 @@
                     <li>{{ $faction->getName() }}</li>
                     <li>{{ $faction->getDescription() }}</li>
                     <li>
-                        {{ $faction->getHeadquarters()->getSymbol() }}
+                        Headquarters: <a href="{{ url('waypoint', $faction->getHeadquarters()->getSymbol()) }}">{{ $faction->getHeadquarters()->getSymbol() }}</a>
                         <img src="{{ asset($faction->getHeadquarters()->getImagePath()) }}" alt="" title="">
                     </li>
-                    <li>
-                        <ul>
-                            @php /** @var \App\Models\STrait[] $traits */ @endphp
-                            @foreach($faction->getTraits() as $trait)
-                                <li>
-                                    <ul>
-                                        <li>{{ $trait->getName() }}</li>
-                                        <li>{{ $trait->getDescription() }}</li>
-                                    </ul>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
+                    <li>@include('view.traits', ['traits' => $orbital->getTraits()])</li>
                 </ul>
             </li>
         @endforeach
