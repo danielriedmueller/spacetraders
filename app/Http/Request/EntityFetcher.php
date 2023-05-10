@@ -26,4 +26,14 @@ class EntityFetcher
     {
         return $this->entityFactory->createEntity($className, $this->httpRequest->get($url)['data']);
     }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function fetchEntities(string $url, string $className): array
+    {
+        return array_map(function ($entity) use ($className) {
+            return $this->entityFactory->createEntity($className, $entity);
+        }, $this->httpRequest->get($url)['data']);
+    }
 }

@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\FactionController;
-use App\Http\Controllers\WaypointController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn () => view('cockpit'));
+Route::get('/', fn() => view('cockpit'));
 
 Route::get('/factions', [FactionController::class, 'index']);
 
-Route::get('/waypoint/{symbol}', fn (string $symbol) => view('waypoint.show', ['symbol' => $symbol]));
+Route::get('/waypoint/{symbol}', fn(string $symbol) => view('waypoint.show', ['symbol' => $symbol]));

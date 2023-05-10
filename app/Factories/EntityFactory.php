@@ -4,6 +4,7 @@ namespace App\Factories;
 
 use App\Exceptions\InvalidRequestException;
 use App\Models\ImageModel;
+use App\Models\Waypoint;
 use App\Storage\ImageStorage;
 
 class EntityFactory
@@ -22,7 +23,7 @@ class EntityFactory
     {
         $entity = new $className();
         foreach ($data as $key => $value) {
-            if (property_exists($entity, $key)) {
+            if (property_exists($entity, $key) || method_exists($entity, $key)) {
                 $entity->$key = $value;
             }
         }

@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
-use App\Http\Request\FactionFetcher;
+use App\Http\Request\EntityFetcher;
 use App\Models\Faction;
 use Illuminate\Http\Request;
 
 class FactionController extends Controller
 {
-    private FactionFetcher $factionFetcher;
+    private EntityFetcher $fetcher;
 
-    public function __construct(FactionFetcher $factionFetcher)
+    public function __construct(EntityFetcher $fetcher)
     {
-        $this->factionFetcher = $factionFetcher;
+        $this->fetcher = $fetcher;
     }
 
     /**
@@ -22,7 +22,7 @@ class FactionController extends Controller
     public function index()
     {
         return view('faction.index', [
-            'factions' => $this->factionFetcher->fetchFactions()
+            'factions' => $this->fetcher->fetchEntities('factions', Faction::class),
         ]);
     }
 

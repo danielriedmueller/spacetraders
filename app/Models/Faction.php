@@ -4,6 +4,8 @@
  */
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 /**
  * Faction
  * @description
@@ -22,8 +24,12 @@ class Faction extends ImageModel {
     /** @var string $headquarters */
     public $headquarters = "";
 
-    /** @var \App\Models\FactionTrait[] $traits */
-    public $traits = [];
+    protected function traits(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, FactionTrait::class), $value),
+        );
+    }
 
     public function getImageName(): string
     {

@@ -28,31 +28,31 @@ class Waypoint extends ImageModel
     /** @var int $y */
     public $y = 0;
 
-    /** @var \App\Models\WaypointOrbital[] $orbitals */
-    public $orbitals = [];
+    protected function orbitals(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, WaypointOrbital::class), $value),
+        );
+    }
 
-    /** @var \App\Models\WaypointFaction $faction */
-    public $faction;
+    protected function faction(): Attribute
+    {
+        return Attribute::make(
+            get: fn (array $value) => $this->valueTransfomer($value, WaypointFaction::class),
+        );
+    }
 
-    /** @var \App\Models\WaypointTrait[] $traits The traits of the waypoint. */
-    //public $traits = [];
-
-    /** @var \App\Models\Chart $chart */
-    public $chart;
+    protected function chart(): Attribute
+    {
+        return Attribute::make(
+            get: fn (array $value) => $this->valueTransfomer($value, Chart::class),
+        );
+    }
 
     protected function traits(): Attribute
     {
         return Attribute::make(
-            get: fn (array $value) => array_map(function (array $trait) {
-                $waypointTrait = new WaypointTrait();
-                $waypointTrait->symbol = $trait['symbol'];
-                $waypointTrait->name = $trait['name'];
-                $waypointTrait->description = $trait['description'];
-                return $waypointTrait;
-            }, $value),
-            set: function (string $value) {
-              return strtolower($value);
-            }
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, WaypointTrait::class), $value),
         );
     }
 

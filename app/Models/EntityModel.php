@@ -4,21 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ImageModel extends Model
+class EntityModel extends Model
 {
-    /** @var string $image */
-    public $image = "";
-
-    public function getImageName(): string
-    {
-        return '';
-    }
-
-    public function getImagePrompt(): string
-    {
-        return '';
-    }
-
     protected function valueTransfomer(mixed $data, string $className): Object
     {
         $entity = new $className();
