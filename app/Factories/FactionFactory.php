@@ -23,13 +23,21 @@ class FactionFactory
      */
     public function createFaction(array $data): Faction
     {
+        $imageName = $this->generateImageName($data['name']);
+        $imagePath = $this->imageStorage->getImage($imageName);
+        if (!$imagePath) {
+            if ($promptData = $this->generateImagePrompt($data)) {
+                $imagePath = $this->imageStorage->getOrCreateImage($imageName, $promptData);
+            }
+        }
+
         return new Faction(
-            $this->imageStorage->retrieve($this->generateImageName($data['name'])),
             $data['name'],
             $data['description'],
             $this->waypointFactory->createWaypointFromCoordinates($data['headquarters']),
             $data['symbol'],
-            array_map(fn($traitData) => STrait::fromResponse($traitData), $data['traits'])
+            array_map(fn($traitData) => STrait::fromResponse($traitData), $data['traits']),
+            $imagePath,
         );
     }
 
@@ -44,5 +52,20 @@ class FactionFactory
     private function generateImageName(string $factionName): string
     {
         return 'faction/faction-' . str_replace(' ', '-', strtolower($factionName)) . '.png';
+    }
+
+    private function generateImagePrompt(array $data): ?string
+    {
+        if (isset($data['name'])) {
+            $prompt = 'Faction ' . $data['name'];
+
+            if (isset($data['traits'])) {
+                $prompt .= ' ' . implode(' ', array_map(fn($trait) => $trait['name'], $data['traits']));
+            }
+
+            return $prompt;
+        }
+
+        return null;
     }
 }

@@ -15,7 +15,7 @@ class ImageStorage
         $this->imageFetcher = $imageFetcher;
     }
 
-    public function store($contents, $filename): void
+    private function store($contents, $filename): void
     {
         Storage::disk('public')->put($filename, $contents);
     }
@@ -23,13 +23,22 @@ class ImageStorage
     /**
      * @throws InvalidRequestException
      */
-    public function retrieve($filename): string
+    public function getOrCreateImage(string $filename, string $prompt): string
     {
         if (!Storage::disk('public')->exists($filename)) {
-            $imageUrl = $this->imageFetcher->fetchImage($filename, 256);
+            $imageUrl = $this->imageFetcher->fetchImage($prompt, 256);
             $this->store(file_get_contents($imageUrl), $filename);
         }
 
         return Storage::disk('public')->url($filename);
+    }
+
+    public function getImage(string $filename): ?string
+    {
+        if (Storage::disk('public')->exists($filename)) {
+            return Storage::disk('public')->url($filename);
+        }
+
+        return null;
     }
 }

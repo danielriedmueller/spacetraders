@@ -15,17 +15,17 @@ class Waypoint
 
     /** @var STrait[] */
     private array $traits;
-    private string $imagePath;
+    private ?string $imagePath;
 
     public function __construct(
-        string $imagePath,
         string $symbol,
         ?string $type,
         ?string $x,
         ?string $y,
         array  $orbitals,
         ?string $factionSymbol,
-        array  $traits
+        array  $traits,
+        ?string $imagePath,
     )
     {
         $this->symbol = $symbol;
@@ -75,6 +75,6 @@ class Waypoint
 
     public function getImagePath(): string
     {
-        return $this->imagePath;
+        return $this->imagePath ?? '';
     }
 }

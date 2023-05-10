@@ -8,7 +8,7 @@ class Faction
     private string $description;
     private Waypoint $headquarters;
     private string $symbol;
-    private string $imagePath;
+    private ?string $imagePath;
 
     /**
      * @var STrait[]
@@ -16,12 +16,12 @@ class Faction
     private array $traits;
 
     public function __construct(
-        string   $imagePath,
         string   $name,
         string   $description,
         Waypoint $headquarters,
         string   $symbol,
-        array    $traits
+        array    $traits,
+        ?string   $imagePath,
     )
     {
         $this->name = $name;
@@ -59,6 +59,6 @@ class Faction
 
     public function getImagePath(): string
     {
-        return $this->imagePath;
+        return $this->imagePath ?? '';
     }
 }
