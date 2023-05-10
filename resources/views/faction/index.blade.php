@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>Factions</h1>
+<x-status />
 <a href="/">Dashboard</a>
 <div>
     <ul>
@@ -17,7 +18,10 @@
                     <li><img src="{{ asset($faction->getImagePath()) }}" alt="" title=""></li>
                     <li>{{ $faction->getName() }}</li>
                     <li>{{ $faction->getDescription() }}</li>
-                    <li>{{ $faction->getHeadquarters() }}</li>
+                    <li>
+                        {{ $faction->getHeadquarters()->getSymbol() }}
+                        <img src="{{ asset($faction->getHeadquarters()->getImagePath()) }}" alt="" title="">
+                    </li>
                     <li>
                         <ul>
                             @php /** @var \App\Models\STrait[] $traits */ @endphp

@@ -42,9 +42,9 @@ class Faction
         return $this->description;
     }
 
-    public function getHeadquarters(): string
+    public function getHeadquarters(): Waypoint
     {
-        return $this->headquarters->getSymbol();
+        return $this->headquarters;
     }
 
     public function getSymbol(): string
