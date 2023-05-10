@@ -20,7 +20,7 @@
                     <li>{{ $faction->getHeadquarters() }}</li>
                     <li>
                         <ul>
-                            @php /** @var \App\Models\FactionTrait[] $traits */ @endphp
+                            @php /** @var \App\Models\STrait[] $traits */ @endphp
                             @foreach($faction->getTraits() as $trait)
                                 <li>
                                     <ul>

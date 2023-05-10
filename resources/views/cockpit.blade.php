@@ -6,7 +6,8 @@
     <title>SpaceTrader</title>
 </head>
 <body>
-<h1>Dashboard</h1>
+<h1>Cockpit</h1>
+<x-status />
 <a href="/factions">Factions</a>
 </body>
 </html>

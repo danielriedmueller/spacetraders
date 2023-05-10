@@ -6,16 +6,23 @@ class Faction
 {
     private string $name;
     private string $description;
-    private string $headquarters;
+    private Waypoint $headquarters;
     private string $symbol;
     private string $imagePath;
 
     /**
-     * @var FactionTrait[]
+     * @var STrait[]
      */
     private array $traits;
 
-    private function __construct(string $imagePath, string $name, string $description, string $headquarters, string $symbol, array $traits)
+    public function __construct(
+        string   $imagePath,
+        string   $name,
+        string   $description,
+        Waypoint $headquarters,
+        string   $symbol,
+        array    $traits
+    )
     {
         $this->name = $name;
         $this->description = $description;
@@ -23,18 +30,6 @@ class Faction
         $this->symbol = $symbol;
         $this->traits = $traits;
         $this->imagePath = $imagePath;
-    }
-
-    public static function fromResponse(array $responseJSON): self
-    {
-        return new self(
-            $responseJSON['image'],
-            $responseJSON['name'],
-            $responseJSON['description'],
-            $responseJSON['headquarters'],
-            $responseJSON['symbol'],
-            array_map(fn($traitJSON) => FactionTrait::fromResponse($traitJSON), $responseJSON['traits'])
-        );
     }
 
     public function getName(): string
@@ -49,7 +44,7 @@ class Faction
 
     public function getHeadquarters(): string
     {
-        return $this->headquarters;
+        return $this->headquarters->getSymbol();
     }
 
     public function getSymbol(): string

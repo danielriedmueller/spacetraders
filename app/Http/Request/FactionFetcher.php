@@ -3,18 +3,17 @@
 namespace App\Http\Request;
 
 use App\Exceptions\InvalidRequestException;
-use App\Models\Faction;
-use App\Storage\ImageStorage;
+use App\Factories\FactionFactory;
 
 class FactionFetcher
 {
     private SpaceTraderRequest $httpRequest;
-    private ImageStorage $imageStorage;
+    private FactionFactory $factionFactory;
 
-    public function __construct(SpaceTraderRequest $httpRequest, ImageStorage $imageStorage)
+    public function __construct(SpaceTraderRequest $httpRequest, FactionFactory $factionFactory)
     {
         $this->httpRequest = $httpRequest;
-        $this->imageStorage = $imageStorage;
+        $this->factionFactory = $factionFactory;
     }
 
     /**
@@ -22,12 +21,6 @@ class FactionFetcher
      */
     public function fetchFactions(): array
     {
-        return array_map(function($responseJSON) {
-            $factionName = $responseJSON['name'];
-            $imageName = 'faction/faction-' . str_replace(' ', '-', strtolower($factionName)) . '.png';
-            $responseJSON['image'] = $this->imageStorage->retrieve($imageName);
-
-            return Faction::fromResponse($responseJSON);
-        }, $this->httpRequest->get("factions")['data']);
+        return $this->factionFactory->createFactions($this->httpRequest->get("factions")['data']);
     }
 }

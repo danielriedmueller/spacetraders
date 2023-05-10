@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class FactionTrait
+class STrait
 {
     private string $name;
     private string $description;
