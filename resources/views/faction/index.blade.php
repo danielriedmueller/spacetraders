@@ -14,6 +14,7 @@
         @foreach($factions as $faction)
             <li>
                 <ul>
+                    <li><img src="{{ asset($faction->getImagePath()) }}" alt="" title=""></li>
                     <li>{{ $faction->getName() }}</li>
                     <li>{{ $faction->getDescription() }}</li>
                     <li>{{ $faction->getHeadquarters() }}</li>

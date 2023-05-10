@@ -8,24 +8,27 @@ class Faction
     private string $description;
     private string $headquarters;
     private string $symbol;
+    private string $imagePath;
 
     /**
      * @var FactionTrait[]
      */
     private array $traits;
 
-    private function __construct(string $name, string $description, string $headquarters, string $symbol, array $traits)
+    private function __construct(string $imagePath, string $name, string $description, string $headquarters, string $symbol, array $traits)
     {
         $this->name = $name;
         $this->description = $description;
         $this->headquarters = $headquarters;
         $this->symbol = $symbol;
         $this->traits = $traits;
+        $this->imagePath = $imagePath;
     }
 
     public static function fromResponse(array $responseJSON): self
     {
         return new self(
+            $responseJSON['image'],
             $responseJSON['name'],
             $responseJSON['description'],
             $responseJSON['headquarters'],
@@ -57,5 +60,10 @@ class Faction
     public function getTraits(): array
     {
         return $this->traits;
+    }
+
+    public function getImagePath(): string
+    {
+        return $this->imagePath;
     }
 }
