@@ -18,6 +18,11 @@ class ImageFetcher
      */
     public function fetchImage(string $prompt, int $size): string
     {
+        // If Dall-E is disabled, return placeholder image for requests
+        if (config('dalle.disabled')) {
+            return sprintf('https://placehold.co/%dx%d/png', $size, $size);
+        }
+
         $responseJSON = $this->httpRequest->post('generations', [
             'prompt' => $prompt,
             'n' => 1,
