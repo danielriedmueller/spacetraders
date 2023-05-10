@@ -7,13 +7,29 @@
 </head>
 <body>
 <h1>Factions</h1>
-<a href="/dashboard">Dashboard</a>
+<a href="/">Dashboard</a>
 <div>
     <ul>
+        @php /** @var \App\Models\Faction[] $factions */ @endphp
         @foreach($factions as $faction)
             <li>
                 <ul>
-                    <li>Name: {{ $faction->name }}</li>
+                    <li>{{ $faction->getName() }}</li>
+                    <li>{{ $faction->getDescription() }}</li>
+                    <li>{{ $faction->getHeadquarters() }}</li>
+                    <li>
+                        <ul>
+                            @php /** @var \App\Models\FactionTrait[] $traits */ @endphp
+                            @foreach($faction->getTraits() as $trait)
+                                <li>
+                                    <ul>
+                                        <li>{{ $trait->getName() }}</li>
+                                        <li>{{ $trait->getDescription() }}</li>
+                                    </ul>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
                 </ul>
             </li>
         @endforeach

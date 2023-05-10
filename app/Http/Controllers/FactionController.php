@@ -21,7 +21,7 @@ class FactionController extends Controller
      */
     public function index()
     {
-        return view('factions.index', [
+        return view('faction.index', [
             'factions' => $this->factionFetcher->fetchFactions()
         ]);
     }

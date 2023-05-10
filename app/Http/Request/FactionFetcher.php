@@ -19,7 +19,6 @@ class FactionFetcher
      */
     public function fetchFactions(): array
     {
-        return array_map(fn($responseJSON) => Faction::fromResponse($responseJSON),
-            $this->httpRequest->get("factions"));
+        return array_map(fn($responseJSON) => Faction::fromResponse($responseJSON), $this->httpRequest->get("factions")['data']);
     }
 }
