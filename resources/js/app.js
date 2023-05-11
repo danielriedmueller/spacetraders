@@ -17,9 +17,6 @@ const app  = createApp({
     render: ()=>h(App)
 });
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
-
 import App from './App.vue';
 app.component('home-component', App);
 
