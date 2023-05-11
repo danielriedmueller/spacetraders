@@ -3,51 +3,63 @@
         <h1>Space Traders</h1>
         <div class="row gy-3">
             <div class="col-12">
-                <div class="p-3 border bg-light"> Credits: {{ agent.credits }}</div>
-            </div>
-            <div class="col-12">
                 <div class="p-3 border bg-light">
                     <div class="card">
-                        <img v-if="agent.waypoint" class="card-img-top" :src="agent.waypoint.image" alt="Card image cap">
                         <div class="card-body">
-                            <h5 class="card-title">Headquarters {{ agent.headquarters }}</h5>
-                            <dl v-if="agent.waypoint">
-                                <dt>Faction</dt>
-                                <dd>{{ agent.waypoint.faction.symbol}}</dd>
-                                <dt>System</dt>
-                                <dd>{{ agent.waypoint.systemSymbol }}</dd>
-                                <dt>Type</dt>
-                                <dd>{{ agent.waypoint.type }}</dd>
-                                <dt>Orbitals</dt>
-                                <dd v-for="orbital in agent.waypoint.orbitals">{{ orbital.symbol }}</dd>
-                                <dt>Traits</dt>
-                                <dd v-for="trait in agent.waypoint.traits">
-                                    <b>{{ trait.name }}</b>: {{ trait.description }}
-                                </dd>
+                            <h5 class="card-title">{{ agent.symbol }}</h5>
+                            <dl>
+                                <dt>Credits</dt>
+                                <dd>{{ agent.credits }}</dd>
+                                <dt>Headquarters</dt>
+                                <dd><a href="#" @click="get('waypoint', agent.headquarters, 'waypoint')" class="btn btn-secondary">{{ agent.headquarters }}</a></dd>
                             </dl>
-                            <a href="#" @click="get('waypoint', agent.headquarters, agent)" class="btn btn-secondary">More</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-if="agent.waypoint" class="col-12">
+            <div v-if="waypoint.image" class="col-12">
+                <div class="p-3 border bg-light">
+                    <div class="card">
+                        <img v-if="waypoint" class="card-img-top" :src="waypoint.image" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Waypoint {{ agent.headquarters }}</h5>
+                            <dl v-if="waypoint">
+                                <dt>Faction</dt>
+                                <dd>{{ waypoint.faction.symbol }}</dd>
+                                <dt>System</dt>
+                                <dd><a href="#" @click="get('system', waypoint.systemSymbol, 'system')" class="btn btn-secondary">{{ waypoint.systemSymbol }}</a></dd>
+                                <dt>Type</dt>
+                                <dd>{{ waypoint.type }}</dd>
+                                <dt>Orbitals</dt>
+                                <dd v-for="orbital in waypoint.orbitals">
+                                  <a href="#" @click="get('waypoint', orbital.symbol, 'waypoint')" class="btn btn-secondary">{{ orbital.symbol }}</a>
+                                </dd>
+                                <dt>Traits</dt>
+                                <dd v-for="trait in waypoint.traits">
+                                    <b>{{ trait.name }}</b>: {{ trait.description }}
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="system.factions" class="col-12">
                 <div class="p-3 border bg-light">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">System {{ agent.waypoint.systemSymbol }}</h5>
-                            <dl v-if="agent.waypoint.system">
+                            <h5 class="card-title">System {{ waypoint.systemSymbol }}</h5>
+                            <dl v-if="system">
                                 <dt>Factions</dt>
-                                <dd v-for="faction in agent.waypoint.system.factions">{{ faction.symbol }}</dd>
+                                <dd v-for="faction in system.factions">{{ faction.symbol }}</dd>
                                 <dt>Sector</dt>
-                                <dd>{{ agent.waypoint.system.sectorSymbol }}</dd>
+                                <dd>{{ system.sectorSymbol }}</dd>
                                 <dt>Type</dt>
-                                <dd>{{ agent.waypoint.system.type }}</dd>
+                                <dd>{{ system.type }}</dd>
                                 <dt>Waypoints</dt>
-                                <dd v-for="waypoint in agent.waypoint.system.waypoints">
-                                    <b>{{ waypoint.type }}</b>: {{ waypoint.symbol }}
+                                <dd v-for="waypoint in system.waypoints">
+                                    <b>{{ waypoint.type }}</b>: <a href="#" @click="get('waypoint', waypoint.symbol, 'waypoint')" class="btn btn-secondary">{{ waypoint.symbol }}</a>
                                 </dd>
                             </dl>
-                            <a href="#" @click="get('system', agent.waypoint.systemSymbol, agent.waypoint)" class="btn btn-secondary">More</a>
                         </div>
                     </div>
                 </div>
@@ -60,7 +72,9 @@
 export default {
     data() {
         return {
-            agent: []
+            agent: {},
+            waypoint: {},
+            system: {}
         }
     },
     created() {
@@ -68,7 +82,7 @@ export default {
     },
     methods: {
         get(type, symbol, data) {
-            axios.get(`api/${type}/${symbol}`).then(response => data[type] = response.data);
+            axios.get(`api/${type}/${symbol}`).then(response => this[data] = response.data);
         }
     }
 }
