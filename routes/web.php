@@ -13,9 +13,4 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', fn() => view('cockpit'));
-
-Route::get('/factions', [FactionController::class, 'index']);
-
-Route::get('/waypoint/{symbol}', fn(string $symbol) => view('waypoint.show', ['symbol' => $symbol]));
+Route::get('/', fn() => view('app'));

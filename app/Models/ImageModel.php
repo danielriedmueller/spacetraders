@@ -30,4 +30,13 @@ class ImageModel extends Model
 
         return $entity;
     }
+
+    public function toArray(): array
+    {
+        return array_merge(
+            array_diff_key(get_object_vars($this), get_class_vars(Model::class)),
+            $this->attributesToArray(),
+            $this->relationsToArray()
+        );
+    }
 }

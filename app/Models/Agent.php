@@ -8,7 +8,7 @@ namespace App\Models;
  * Agent
  * @description
  */
-class Agent {
+class Agent extends EntityModel {
 
     /** @var string $accountId */
     public $accountId = "";
