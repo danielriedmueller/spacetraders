@@ -16,5 +16,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/agent', [ApiController::class, 'agent']);
-Route::get('/factions', [ApiController::class, 'factions']);
+Route::get('/faction/{symbol}', [ApiController::class, 'faction']);
 Route::get('/waypoint/{symbol}', [ApiController::class, 'waypoint']);

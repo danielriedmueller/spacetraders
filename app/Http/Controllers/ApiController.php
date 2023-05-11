@@ -7,7 +7,6 @@ use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Faction;
 use App\Models\Waypoint as WaypointModel;
-use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
@@ -21,24 +20,45 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function factions(): array
+    public function faction($symbol): object
     {
-        return $this->fetcher->fetchEntities('factions', Faction::class);
+        $cacheName = 'faction-' . $symbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $faction = $this->fetcher->fetchEntity('factions/' . $symbol, Faction::class);
+        cache([$cacheName => $faction]);
+
+        return $faction;
     }
 
     /**
      * @throws InvalidRequestException
      */
-    public function agent(): Object
+    public function agent(): object
     {
-        return $this->fetcher->fetchEntity('/my/agent', Agent::class);
+        $cacheName = 'myAgent';
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $myAgent = $this->fetcher->fetchEntity('/my/agent', Agent::class);
+        cache([$cacheName => $myAgent]);
+
+        return $myAgent;
     }
 
     /**
      * @throws InvalidRequestException
      */
-    public function waypoint($symbol): Object
+    public function waypoint($symbol): object
     {
+        $cacheName = 'waypoint-' . $symbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
         $symbolParts = explode('-', $symbol);
 
         if (sizeof($symbolParts) !== 3) {
@@ -48,6 +68,9 @@ class ApiController extends Controller
         $systemSymbol = $symbolParts[0] . '-' . $symbolParts[1];
         $url = sprintf('systems/%s/waypoints/%s', $systemSymbol, $symbol);
 
-        return $this->fetcher->fetchEntity($url, WaypointModel::class);
+        $waypoint = $this->fetcher->fetchEntity($url, WaypointModel::class);
+        cache([$cacheName => $waypoint]);
+
+        return $waypoint;
     }
 }
