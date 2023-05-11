@@ -4,11 +4,13 @@
  */
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 /**
  * System
  * @description
  */
-class System {
+class System extends EntityModel {
 
     /** @var string $symbol */
     public $symbol = "";
@@ -25,10 +27,17 @@ class System {
     /** @var int $y */
     public $y = 0;
 
-    /** @var \App\Models\SystemWaypoint[] $waypoints */
-    public $waypoints = [];
+    protected function waypoints(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, Waypoint::class), $value),
+        );
+    }
 
-    /** @var \App\Models\SystemFaction[] $factions */
-    public $factions = [];
-
+    protected function factions(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, Faction::class), $value),
+        );
+    }
 }

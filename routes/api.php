@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApiController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/agent', [ApiController::class, 'agent']);
 Route::get('/faction/{symbol}', [ApiController::class, 'faction']);
 Route::get('/waypoint/{symbol}', [ApiController::class, 'waypoint']);
+Route::get('/system/{symbol}', [ApiController::class, 'system']);

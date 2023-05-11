@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Faction;
+use App\Models\System;
 use App\Models\Waypoint as WaypointModel;
 
 class ApiController extends Controller
@@ -72,5 +73,23 @@ class ApiController extends Controller
         cache([$cacheName => $waypoint]);
 
         return $waypoint;
+    }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function system($symbol): Object
+    {
+        $cacheName = 'system-' . $symbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $url = sprintf('systems/%s', $symbol);
+
+        $system = $this->fetcher->fetchEntity($url, System::class);
+        cache([$cacheName => $system]);
+
+        return $system;
     }
 }
