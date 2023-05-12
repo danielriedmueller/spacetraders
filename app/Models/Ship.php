@@ -60,7 +60,7 @@ class Ship extends ImageModel {
 
     public function getImagePrompt(): string
     {
-        $prompt = $this->symbol;
+        $prompt = 'Spaceship';
         $prompt .= ' ' . $this->registration['role'];
 
         return $prompt;
