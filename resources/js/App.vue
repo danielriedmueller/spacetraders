@@ -3,6 +3,7 @@
         <h1>Space Traders</h1>
         <div class="row gy-3">
             <Card :entity="agent" @updateEntity="get" />
+            <Card :entity="ship" @updateEntity="get" />
             <Card :entity="waypoint" @updateEntity="get" />
             <Card :entity="system" @updateEntity="get" />
             <Card :entity="faction" @updateEntity="get" />
@@ -18,7 +19,7 @@ export default {
     data() {
         let data = {};
 
-        ['agent', 'waypoint', 'system', 'faction'].forEach(entity => {
+        ['agent', 'waypoint', 'system', 'faction', 'ship'].forEach(entity => {
             data[entity] = localStorage.getItem(entity) ? JSON.parse(localStorage.getItem(entity)) : {};
         });
 
@@ -28,8 +29,11 @@ export default {
         axios.get('api/agent').then(response => this.agent = response.data);
     },
     methods: {
-        get(type, symbol) {
-            axios.get(`api/${type}/${symbol}`).then(response => {
+        get(type, symbol, endpoint = null) {
+            if (!endpoint) {
+                endpoint = type;
+            }
+            axios.get(`api/${endpoint}/${symbol}`).then(response => {
                 const data = response.data;
                 localStorage.setItem(type, JSON.stringify(data));
                 this[type] = data;

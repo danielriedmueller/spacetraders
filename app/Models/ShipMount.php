@@ -8,7 +8,7 @@ namespace App\Models;
  * ShipMount
  * @description A mount is installed on the exterier of a ship.
  */
-class ShipMount {
+class ShipMount extends EntityModel {
 
     /** @var string $symbol */
     public $symbol = "";

@@ -8,7 +8,7 @@ namespace App\Models;
  * ShipModule
  * @description A module can be installed in a ship and provides a set of capabilities such as storage space or quarters for crew. Module installations are permanent.
  */
-class ShipModule {
+class ShipModule extends EntityModel {
 
     /** @var string $symbol */
     public $symbol = "";

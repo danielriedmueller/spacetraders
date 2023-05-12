@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Faction;
+use App\Models\Ship;
 use App\Models\System;
 use App\Models\Waypoint as WaypointModel;
 
@@ -28,7 +29,7 @@ class ApiController extends Controller
             return $cached;
         }
 
-        $faction = $this->fetcher->fetchEntity('factions/' . $symbol, Faction::class);
+        $faction = $this->fetcher->fetchEntity("factions/$symbol", Faction::class);
         cache([$cacheName => $faction]);
 
         return $faction;
@@ -45,9 +46,26 @@ class ApiController extends Controller
         }
 
         $myAgent = $this->fetcher->fetchEntity('/my/agent', Agent::class);
+        $myAgent->ships = $this->fetcher->fetchEntities('/my/ships', Ship::class);
         cache([$cacheName => $myAgent]);
 
         return $myAgent;
+    }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function ship($symbol): object
+    {
+        $cacheName = 'ship-' . $symbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $ship = $this->fetcher->fetchEntity("my/ships/$symbol", Ship::class);
+        cache([$cacheName => $ship]);
+
+        return $ship;
     }
 
     /**
@@ -85,9 +103,7 @@ class ApiController extends Controller
             return $cached;
         }
 
-        $url = sprintf('systems/%s', $symbol);
-
-        $system = $this->fetcher->fetchEntity($url, System::class);
+        $system = $this->fetcher->fetchEntity("systems/$symbol", System::class);
         cache([$cacheName => $system]);
 
         return $system;

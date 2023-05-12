@@ -4,11 +4,13 @@
  */
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 /**
  * Ship
  * @description A ship
  */
-class Ship {
+class Ship extends ImageModel {
 
     /** @var string $symbol The globally unique identifier of the ship in the following format: &#x60;[AGENT_SYMBOL]_[HEX_ID]&#x60;*/
     public $symbol = "";
@@ -31,16 +33,37 @@ class Ship {
     /** @var \App\Models\ShipEngine $engine */
     public $engine;
 
-    /** @var \App\Models\ShipModule[] $modules */
-    public $modules = [];
-
-    /** @var \App\Models\ShipMount[] $mounts */
-    public $mounts = [];
-
     /** @var \App\Models\ShipCargo $cargo */
     public $cargo;
 
     /** @var \App\Models\ShipFuel $fuel */
     public $fuel;
+
+    protected function modules(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, ShipModule::class), $value),
+        );
+    }
+
+    protected function mounts(): Attribute
+    {
+        return Attribute::make(
+            get: fn(array $value) => array_map(fn ($value) => $this->valueTransfomer($value, ShipMount::class), $value),
+        );
+    }
+
+    public function getImageName(): string
+    {
+        return 'ship/ship-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
+    }
+
+    public function getImagePrompt(): string
+    {
+        $prompt = $this->symbol;
+        $prompt .= ' ' . $this->registration['role'];
+
+        return $prompt;
+    }
 
 }
