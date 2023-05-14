@@ -10,6 +10,10 @@
                     <pre>{{ entity }}</pre>
                 </div>
                 <h5 class="card-title">{{ entity.symbol }}</h5>
+                <div v-for="(item, key) in entity.actions">
+                    <a href="#" @click.prevent="post(item, [])"
+                       class="btn btn-primary">{{ key }}</a>
+                </div>
             </div>
             <ul class="list-group list-group-flush">
                 <!-- Name -->
@@ -276,11 +280,14 @@
 <script>
 export default {
     props: ['entity', 'type'],
-    emits: ['updateEntity'],
+    emits: ['get', 'post'],
     methods: {
         get: function (type, url) {
-            this.$emit('updateEntity', type, url);
-        }
+            this.$emit('get', type, url);
+        },
+        post: function (url, data) {
+            this.$emit('post', url, data);
+        },
     },
 }
 </script>

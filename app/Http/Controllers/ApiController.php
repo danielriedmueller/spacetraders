@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidRequestException;
+use App\Http\Request\EntityDeliverer;
 use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Contract;
@@ -16,10 +17,12 @@ use App\Models\Waypoint as WaypointModel;
 class ApiController extends Controller
 {
     private EntityFetcher $fetcher;
+    private EntityDeliverer $deliverer;
 
-    public function __construct(EntityFetcher $fetcher)
+    public function __construct(EntityFetcher $fetcher, EntityDeliverer $deliverer)
     {
         $this->fetcher = $fetcher;
+        $this->deliverer = $deliverer;
     }
 
     /**
@@ -80,9 +83,18 @@ class ApiController extends Controller
         }
 
         $item = $this->fetcher->fetchEntity("my/contracts/$symbol", Contract::class);
+        if (!$item->accepted) {
+            $item->actions = ['accept' => "my/contracts/$symbol/accept"];
+        }
+
         cache([$cacheName => $item]);
 
         return $item;
+    }
+
+    public function acceptContract($symbol): void
+    {
+        $this->deliverer-> deliver("my/contracts/$symbol/accept", []);
     }
 
     /**

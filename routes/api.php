@@ -20,5 +20,6 @@ Route::get('/waypoint/{symbol}', [ApiController::class, 'waypoint']);
 Route::get('/system/{symbol}', [ApiController::class, 'system']);
 Route::get('/my/ships/{symbol}', [ApiController::class, 'ship']);
 Route::get('/my/contracts/{symbol}', [ApiController::class, 'contract']);
+Route::post('/my/contracts/{symbol}/accept', [ApiController::class, 'acceptContract']);
 Route::get('/systems/{systemSymbol}/waypoints/{waypointSymbol}/shipyard', [ApiController::class, 'shipyard']);
 Route::get('/systems/{systemSymbol}/waypoints/{waypointSymbol}/market', [ApiController::class, 'market']);

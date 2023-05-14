@@ -30,5 +30,4 @@ class Contract extends EntityModel {
 
     /** @var \DateTime $expiration The time at which the contract expires*/
     public $expiration;
-
 }

@@ -8,7 +8,7 @@
         </div>
         <div class="row gy-3" :class="{ loading }">
             <template v-for="entity in this.entityTypes">
-                <Card :entity="this[entity]" :type="entity" @updateEntity="get" />
+                <Card :entity="this[entity]" :type="entity" @get="get" @post="post" />
             </template>
         </div>
     </div>
@@ -33,7 +33,7 @@ export default {
     mounted() {
         entityTypes.forEach(entity => {
             if (localStorage.getItem(entity)) {
-                this[entity] = JSON.parse(localStorage.getItem(entity));
+             //   this[entity] = JSON.parse(localStorage.getItem(entity));
             }
         });
     },
@@ -72,7 +72,17 @@ export default {
                 console.log(this.error);
                 this.loading = false;
             })
-        }
+        },
+        post(url, data) {
+            this.loading = true;
+            axios.post(`api/${url}`, data).then(response => {
+                this.loading = false;
+            }).catch(error => {
+                this.error = `POST api/${url}: ` + error;
+                console.log(this.error);
+                this.loading = false;
+            })
+        },
     }
 }
 </script>
