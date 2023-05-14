@@ -43,11 +43,23 @@ export default {
             this.loading = true;
             axios.get(`api/${url}`).then(response => {
                 const data = response.data;
+
+                if (type === 'waypoint') {
+                    this.market = {};
+                    this.shipyard = {};
+                    this.system = {};
+                    localStorage.removeItem('market');
+                    localStorage.removeItem('shipyard');
+                    localStorage.removeItem('system');
+                }
+
+
                 localStorage.setItem(type, JSON.stringify(data));
                 this[type] = data;
                 this.loading = false;
             }).catch(error => {
-                this.error = `GET api/${endpoint}/${symbol}: ` + error;
+                this.error = `GET api/${url}: ` + error;
+                console.log(this.error);
                 this.loading = false;
             })
         }
