@@ -7,22 +7,21 @@
             </div>
         </div>
         <div class="row gy-3" :class="{ loading }">
-            <Card :entity="agent" @updateEntity="get" />
-            <Card :entity="ship" @updateEntity="get" />
-            <Card :entity="waypoint" @updateEntity="get" />
-            <Card :entity="system" @updateEntity="get" />
-            <Card :entity="shipyard" @updateEntity="get" />
+            <template v-for="entity in this.entityTypes">
+                <Card :entity="this[entity]" :type="entity" @updateEntity="get" />
+            </template>
         </div>
     </div>
 </template>
 <script>
 
 import Card from "./components/Card.vue";
-
+const entityTypes = ['agent', 'waypoint', 'system', 'faction', 'ship', 'shipyard'];
 export default {
     components: {Card},
     data() {
         return {
+            entityTypes ,
             agent: {},
             waypoint: {},
             system: {},
@@ -34,7 +33,7 @@ export default {
         };
     },
     mounted() {
-        ['agent', 'waypoint', 'system', 'faction', 'ship', 'shipyard'].forEach(entity => {
+        entityTypes.forEach(entity => {
             this[entity] = localStorage.getItem(entity) ? JSON.parse(localStorage.getItem(entity)) : {};
         });
     },
