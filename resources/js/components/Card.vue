@@ -42,6 +42,19 @@
                     </li>
                 </template>
 
+                <!-- Contracts -->
+                <template v-if="entity.contracts && entity.contracts.length > 0">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Contracts</dt>
+                            <dd v-for="item in entity.contracts">
+                                <a href="#" @click.prevent="get('contract', `my/contracts/${item.id}`)"
+                                   class="card-link">{{ item.id }}</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </template>
+
                 <!-- Headquarters -->
                 <template v-if="entity.headquarters">
                     <li class="list-group-item">
@@ -54,12 +67,12 @@
                 </template>
 
                 <!-- Faction -->
-                <template v-if="entity.faction && entity.faction.symbol">
+                <template v-if="entity.factionSymbol">
                     <li class="list-group-item">
                         <dl>
                             <dt>Faction</dt>
-                            <dd><a href="#" @click.prevent="get('faction', `faction/${entity.faction.symbol}`)"
-                                   class="card-link">{{ entity.faction.symbol }}</a></dd>
+                            <dd><a href="#" @click.prevent="get('faction', `faction/${entity.factionSymbol}`)"
+                                   class="card-link">{{ entity.factionSymbol }}</a></dd>
                         </dl>
                     </li>
                 </template>
@@ -217,7 +230,40 @@
                             <dd>{{ entity.crew.wages }}</dd>
                         </dl>
                     </li>
+                </template>
 
+                <!-- Contract terms -->
+                <template v-if="entity.terms">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Deadline</dt>
+                            <dd>{{ entity.terms.deadline }}</dd>
+                            <dt>Payment on accepted</dt>
+                            <dd>{{ entity.terms.payment.onAccepted }}</dd>
+                            <dt>Payment on fulfilled</dt>
+                            <dd>{{ entity.terms.payment.onFulfilled }}</dd>
+                            <dt>Deliver</dt>
+                            <dd v-for="item in entity.terms.deliver">
+                                <dl>
+                                    <dt>Trade</dt>
+                                    <dd>{{ item.tradeSymbol }}</dd>
+                                    <dt>Destination</dt>
+                                    <dd><a href="#" @click.prevent="get('waypoint', `waypoint/${item.destinationSymbol}`)"
+                                           class="card-link">{{ item.destinationSymbol }}</a></dd>
+                                    <dt>Units required</dt>
+                                    <dd>{{ item.unitsRequired }}</dd>
+                                    <dt>Units fulfilled</dt>
+                                    <dd>{{ item.unitsFulfilled }}</dd>
+                                </dl>
+                            </dd>
+                            <dt>Accepted</dt>
+                            <dd>{{ entity.accepted }}</dd>
+                            <dt>Fulfilled</dt>
+                            <dd>{{ entity.fulfilled }}</dd>
+                            <dt>Expiration</dt>
+                            <dd>{{ entity.expiration }}</dd>
+                        </dl>
+                    </li>
                 </template>
             </ul>
             <div class="card-footer">

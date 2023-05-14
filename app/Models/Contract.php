@@ -8,7 +8,7 @@ namespace App\Models;
  * Contract
  * @description
  */
-class Contract {
+class Contract extends EntityModel {
 
     /** @var string $id */
     public $id = "";

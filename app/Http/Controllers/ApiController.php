@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\InvalidRequestException;
 use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
+use App\Models\Contract;
 use App\Models\Faction;
 use App\Models\Market;
 use App\Models\Ship;
@@ -49,6 +50,7 @@ class ApiController extends Controller
 
         $myAgent = $this->fetcher->fetchEntity('/my/agent', Agent::class);
         $myAgent->ships = $this->fetcher->fetchEntities('/my/ships', Ship::class);
+        $myAgent->contracts = $this->fetcher->fetchEntities('/my/contracts', Contract::class);
         cache([$cacheName => $myAgent]);
 
         return $myAgent;
@@ -68,6 +70,19 @@ class ApiController extends Controller
         cache([$cacheName => $ship]);
 
         return $ship;
+    }
+
+    public function contract($symbol): object
+    {
+        $cacheName = 'contract-' . $symbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $item = $this->fetcher->fetchEntity("my/contracts/$symbol", Contract::class);
+        cache([$cacheName => $item]);
+
+        return $item;
     }
 
     /**
