@@ -16,18 +16,16 @@
 <script>
 
 import Card from "./components/Card.vue";
-const entityTypes = ['agent', 'waypoint', 'system', 'faction', 'ship', 'shipyard'];
+const entityTypes = ['agent', 'ship', 'shipyard', 'market', 'waypoint', 'system', 'faction'];
 export default {
     components: {Card},
     data() {
         return {
-            entityTypes ,
-            agent: {},
-            waypoint: {},
-            system: {},
-            faction: {},
-            ship: {},
-            shipyard: {},
+            entityTypes,
+            ...entityTypes.reduce((acc, key) => {
+                acc[key] = {};
+                return acc;
+            }, {}),
             loading: false,
             error: ''
         };
@@ -41,12 +39,9 @@ export default {
         axios.get('api/agent').then(response => this.agent = response.data);
     },
     methods: {
-        get(type, symbol, endpoint = null) {
-            if (!endpoint) {
-                endpoint = type;
-            }
+        get(type, url) {
             this.loading = true;
-            axios.get(`api/${endpoint}/${symbol}`).then(response => {
+            axios.get(`api/${url}`).then(response => {
                 const data = response.data;
                 localStorage.setItem(type, JSON.stringify(data));
                 this[type] = data;

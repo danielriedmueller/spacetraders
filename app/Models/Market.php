@@ -8,7 +8,7 @@ namespace App\Models;
  * Market
  * @description
  */
-class Market {
+class Market extends EntityModel {
 
     /** @var string $symbol The symbol of the market. The symbol is the same as the waypoint where the market is located.*/
     public $symbol = "";

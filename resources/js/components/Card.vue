@@ -42,7 +42,7 @@
                     <li class="list-group-item">
                         <dl>
                             <dt>Headquarters</dt>
-                            <dd><a href="#" @click.prevent="get('waypoint', entity.headquarters)"
+                            <dd><a href="#" @click.prevent="get('waypoint', `waypoint/${entity.headquarters}`)"
                                    class="card-link">{{ entity.headquarters }}</a></dd>
                         </dl>
                     </li>
@@ -53,7 +53,7 @@
                     <li class="list-group-item">
                         <dl>
                             <dt>Faction</dt>
-                            <dd><a href="#" @click.prevent="get('faction', entity.faction.symbol)"
+                            <dd><a href="#" @click.prevent="get('faction', `faction/${entity.faction.symbol}`)"
                                    class="card-link">{{ entity.faction.symbol }}</a></dd>
                         </dl>
                     </li>
@@ -65,7 +65,7 @@
                         <dl>
                             <dt>Factions</dt>
                             <dd v-for="faction in entity.factions">
-                                <a href="#" @click.prevent="get('faction', faction.symbol)"
+                                <a href="#" @click.prevent="get('faction', `faction/${faction.symbol}`)"
                                    class="card-link">{{ faction.symbol }}</a>
                             </dd>
                         </dl>
@@ -77,7 +77,7 @@
                     <li class="list-group-item">
                         <dl>
                             <dt>System</dt>
-                            <dd><a href="#" @click.prevent="get('system', entity.systemSymbol)"
+                            <dd><a href="#" @click.prevent="get('system', `system/${entity.systemSymbol}`)"
                                    class="card-link">{{ entity.systemSymbol }}</a></dd>
                         </dl>
                     </li>
@@ -110,7 +110,7 @@
                             <dt>Waypoints</dt>
                             <dd v-for="waypoint in entity.waypoints">
                                 <b>{{ waypoint.type }}</b>: <a href="#"
-                                                               @click.prevent="get('waypoint', waypoint.symbol)"
+                                                               @click.prevent="get('waypoint', `waypoint/${waypoint.symbol}`)"
                                                                class="card-link">{{ waypoint.symbol }}</a>
                             </dd>
                         </dl>
@@ -123,7 +123,7 @@
                         <dl>
                             <dt>Orbitals</dt>
                             <dd v-for="orbital in entity.orbitals">
-                                <a href="#" @click.prevent="get('waypoint', orbital.symbol)"
+                                <a href="#" @click.prevent="get('waypoint', `waypoint/${orbital.symbol}`)"
                                    class="card-link">{{ orbital.symbol }}</a>
                             </dd>
                         </dl>
@@ -136,7 +136,15 @@
                         <dl>
                             <dt>Traits</dt>
                             <dd v-for="trait in entity.traits">
-                                <b>{{ trait.name }}</b>: {{ trait.description }}
+                                <b>
+                                    <span v-if="trait.symbol === 'SHIPYARD'"><a href="#" @click.prevent="get('shipyard', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/shipyard`)" class="card-link">{{
+                                            trait.name
+                                        }}</a></span>
+                                    <span v-else-if="trait.symbol === 'MARKETPLACE'"><a href="#" @click.prevent="get('market', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/market`)" class="card-link">{{
+                                            trait.name
+                                        }}</a></span>
+                                    <span v-else>{{ trait.name }}</span>
+                                </b>: {{ trait.description }}
                             </dd>
                         </dl>
                     </li>
@@ -148,7 +156,7 @@
                         <dl>
                             <dt>Ships</dt>
                             <dd v-for="ship in entity.ships">
-                                <a href="#" @click.prevent="get('ship', ship.symbol, 'my/ships')"
+                                <a href="#" @click.prevent="get('ship', `my/ships/${ship.symbol}`)"
                                    class="card-link">{{ ship.symbol }}</a>
                             </dd>
                         </dl>
@@ -162,7 +170,7 @@
                             <dt>Name</dt>
                             <dd>{{ entity.registration.name }}</dd>
                             <dt>Faction</dt>
-                            <dd><a href="#" @click.prevent="get('faction', entity.registration.factionSymbol)"
+                            <dd><a href="#" @click.prevent="get('faction', `faction/${entity.registration.factionSymbol}`)"
                                    class="card-link">{{ entity.registration.factionSymbol }}</a></dd>
                             <dt>Role</dt>
                             <dd>{{ entity.registration.role }}</dd>
@@ -176,7 +184,7 @@
                         <dl>
                             <dt>Current Location</dt>
                             <dd><a href="#"
-                                   @click.prevent="get('waypoint', entity.nav.waypointSymbol)"
+                                   @click.prevent="get('waypoint', `waypoint/${entity.nav.waypointSymbol}`)"
                                    class="card-link">{{ entity.nav.waypointSymbol }}</a></dd>
                             <dt>Status</dt>
                             <dd>{{ entity.nav.status }}</dd>
@@ -219,8 +227,8 @@ export default {
     props: ['entity', 'type'],
     emits: ['updateEntity'],
     methods: {
-        get: function (type, symbol, endpoint = null) {
-            this.$emit('updateEntity', type, symbol, endpoint);
+        get: function (type, url) {
+            this.$emit('updateEntity', type, url);
         }
     },
 }

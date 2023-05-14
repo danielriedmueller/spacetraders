@@ -6,6 +6,7 @@ use App\Exceptions\InvalidRequestException;
 use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Faction;
+use App\Models\Market;
 use App\Models\Ship;
 use App\Models\Shipyard;
 use App\Models\System;
@@ -121,6 +122,22 @@ class ApiController extends Controller
         }
 
         $system = $this->fetcher->fetchEntity("/systems/$systemSymbol/waypoints/$waypointSymbol/shipyard", Shipyard::class);
+        cache([$cacheName => $system]);
+
+        return $system;
+    }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function market($systemSymbol, $waypointSymbol): Object
+    {
+        $cacheName = 'market-' . $systemSymbol . '-' . $waypointSymbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $system = $this->fetcher->fetchEntity("/systems/$systemSymbol/waypoints/$waypointSymbol/market", Market::class);
         cache([$cacheName => $system]);
 
         return $system;
