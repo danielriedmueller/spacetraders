@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class EntityModel extends Model
@@ -15,7 +16,6 @@ class EntityModel extends Model
 
         parent::__construct();
     }
-
 
     protected function valueTransfomer(mixed $data, string $className): Object
     {
@@ -31,10 +31,14 @@ class EntityModel extends Model
 
     public function toArray(): array
     {
-        return array_merge(
+        $values = array_merge(
             array_diff_key(get_object_vars($this), get_class_vars(Model::class)),
             $this->attributesToArray(),
             $this->relationsToArray()
         );
+
+        $values['class'] = strtolower(str_replace('App\\Models\\', '', get_class($this)));
+
+        return $values;
     }
 }

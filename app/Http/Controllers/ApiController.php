@@ -83,12 +83,22 @@ class ApiController extends Controller
 
     public function orbit($symbol): array
     {
-        return $this->deliverer->deliver("my/ships/$symbol/orbit", []);
+        $responseJSON = $this->deliverer->deliver("my/ships/$symbol/orbit", []);
+        $responseJSON['ship'] = $responseJSON['data'];
+        $responseJSON['ship']['actions'] = ['dock' => "my/ships/$symbol/dock"];
+        unset($responseJSON['data']);
+
+        return $responseJSON;
     }
 
     public function dock($symbol): array
     {
-        return $this->deliverer->deliver("my/ships/$symbol/dock", []);
+        $responseJSON = $this->deliverer->deliver("my/ships/$symbol/dock", []);
+        $responseJSON['ship'] = $responseJSON['data'];
+        $responseJSON['ship']['actions'] = ['orbit' => "my/ships/$symbol/orbit"];
+        unset($responseJSON['data']);
+
+        return $responseJSON;
     }
 
     public function contract($symbol): object
@@ -110,7 +120,8 @@ class ApiController extends Controller
 
     public function acceptContract($symbol): void
     {
-        $this->deliverer->deliver("my/contracts/$symbol/accept", []);
+        // TODO: Implement acceptContract() method.
+        //$this->deliverer->deliver("my/contracts/$symbol/accept", []);
     }
 
     /**

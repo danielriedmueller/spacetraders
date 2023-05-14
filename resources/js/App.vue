@@ -34,7 +34,7 @@ export default {
     mounted() {
         entityTypes.forEach(entity => {
             if (localStorage.getItem(entity)) {
-             //   this[entity] = JSON.parse(localStorage.getItem(entity));
+                this[entity] = JSON.parse(localStorage.getItem(entity));
             }
         });
     },
@@ -42,7 +42,7 @@ export default {
         axios.get('api/agent').then(response => this.agent = response.data);
     },
     methods: {
-        get(type, url) {
+        get(url) {
             this.loading = true;
             axios.get(`api/${url}`).then(response => {
                 const data = response.data;
@@ -55,7 +55,7 @@ export default {
                     data.factionSymbol = data.faction.symbol;
                 }
 
-                if (type === 'waypoint') {
+                if (data.class === 'waypoint') {
                     this.market = {};
                     this.shipyard = {};
                     this.system = {};
@@ -64,9 +64,8 @@ export default {
                     localStorage.removeItem('system');
                 }
 
-
-                localStorage.setItem(type, JSON.stringify(data));
-                this[type] = data;
+                localStorage.setItem(data.class, JSON.stringify(data));
+                this[data.class] = data;
                 this.loading = false;
             }).catch(error => {
                 this.error = `GET api/${url}: ` + error;
@@ -77,6 +76,15 @@ export default {
         post(url, data) {
             this.loading = true;
             axios.post(`api/${url}`, data).then(response => {
+                const data = response.data;
+                Object.keys(data).forEach(entity => {
+                    Object.keys(data[entity]).forEach(property => {
+                        this[entity][property] = data[entity][property];
+                    });
+
+                    localStorage.setItem(entity, JSON.stringify(this[entity]));
+                });
+
                 this.loading = false;
             }).catch(error => {
                 this.error = `POST api/${url}: ` + error;
