@@ -75,13 +75,10 @@ class ApiController extends Controller
             'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
             'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
             'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
+            'orbit' => ["my/ships/$symbol/orbit", []],
+            'dock' => ["my/ships/$symbol/dock", []]
         ];
-        if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'DOCKED') {
-            $actions['orbit'] = ["my/ships/$symbol/orbit", []];
-        }
-        if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'IN_ORBIT') {
-            $actions['dock'] = ["my/ships/$symbol/dock", []];
-        }
+
         $ship->actions = $actions;
         cache([$cacheName => $ship]);
 
@@ -92,16 +89,6 @@ class ApiController extends Controller
     {
         $responseJSON = $this->deliverer->post("my/ships/$symbol/orbit", []);
         $responseJSON['ship'] = $responseJSON['data'];
-
-        $actions = [
-            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
-            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
-            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
-            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
-            'dock' => ["my/ships/$symbol/dock", []]
-        ];
-
-        $responseJSON['ship']['actions'] = $actions;
         unset($responseJSON['data']);
 
         return $responseJSON;
@@ -111,16 +98,6 @@ class ApiController extends Controller
     {
         $responseJSON = $this->deliverer->post("my/ships/$symbol/dock", []);
         $responseJSON['ship'] = $responseJSON['data'];
-
-        $actions = [
-            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
-            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
-            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
-            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
-            'orbit' => ["my/ships/$symbol/orbit", []],
-        ];
-
-        $responseJSON['ship']['actions'] = $actions;
         unset($responseJSON['data']);
 
         return $responseJSON;
