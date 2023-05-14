@@ -21,6 +21,7 @@ Route::get('/system/{symbol}', [ApiController::class, 'system']);
 Route::get('/my/ships/{symbol}', [ApiController::class, 'ship']);
 Route::post('/my/ships/{symbol}/orbit', [ApiController::class, 'orbit']);
 Route::post('/my/ships/{symbol}/dock', [ApiController::class, 'dock']);
+Route::post('/my/ships/{symbol}/nav', [ApiController::class, 'setFlightMode']);
 Route::get('/my/contracts/{symbol}', [ApiController::class, 'contract']);
 Route::post('/my/contracts/{symbol}/accept', [ApiController::class, 'acceptContract']);
 Route::get('/systems/{systemSymbol}/waypoints/{waypointSymbol}/shipyard', [ApiController::class, 'shipyard']);

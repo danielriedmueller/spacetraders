@@ -17,9 +17,19 @@ class EntityDeliverer
     /**
      * @throws InvalidRequestException
      */
-    public function deliver(string $url, array $data): array
+    public function post(string $url, array $data): array
     {
         $responseJSON = $this->httpRequest->post($url, $data);
+
+        return $responseJSON;
+    }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function patch(string $url, array $data): array
+    {
+        $responseJSON = $this->httpRequest->patch($url, $data);
 
         return $responseJSON;
     }

@@ -5,14 +5,15 @@
             <img v-if="entity.image" :src="entity.image" alt="Card image not found">
             <div class="card-body">
                 <div>
-                    <div class="collapse" id="data">
+                    <a class="card-link text-muted" data-bs-toggle="collapse" :href="'#' + entity.symbol" role="button">Show Info</a>
+                    <div class="collapse" :id="entity.symbol">
                         <div v-if="entity.imagePrompt" class="text-muted">{{ entity.imagePrompt }}</div>
                         <pre>{{ entity }}</pre>
                     </div>
                 </div>
                 <h5 class="card-title">{{ entity.symbol }}</h5>
                 <div v-for="(item, key) in entity.actions">
-                    <a href="#" @click.prevent="post(item, [])"
+                    <a href="#" @click.prevent="post(item[0], item[1])"
                        class="btn btn-primary">{{ key }}</a>
                 </div>
             </div>
@@ -235,6 +236,7 @@
                 <!-- Crew -->
                 <template v-if="entity.crew">
                     <li class="list-group-item">
+                        <h4>Crew</h4>
                         <dl>
                             <dt>Current</dt>
                             <dd>{{ entity.crew.current }}</dd>
@@ -248,6 +250,45 @@
                             <dd>{{ entity.crew.morale }}</dd>
                             <dt>Wages</dt>
                             <dd>{{ entity.crew.wages }}</dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Fuel -->
+                <template v-if="entity.fuel">
+                    <li class="list-group-item">
+                        <h4>Fuel</h4>
+                        <dl>
+                            <dt>Current</dt>
+                            <dd>{{ entity.fuel.current }}</dd>
+                            <dt>Capacity</dt>
+                            <dd>{{ entity.fuel.capacity }}</dd>
+                            <dt>Consumend</dt>
+                            <dd>{{ entity.fuel.consumed.amount }} {{ entity.fuel.consumed.timestamp }}</dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Cargo -->
+                <template v-if="entity.cargo">
+                    <li class="list-group-item">
+                        <h4>Cargo</h4>
+                        <dl>
+                            <dt>Capacity</dt>
+                            <dd>{{ entity.cargo.capacity }}</dd>
+                            <dt>Units</dt>
+                            <dd>{{ entity.cargo.units }}</dd>
+                            <dt>Inventory</dt>
+                            <dd v-for="item in entity.cargo.inventory">
+                                <dl>
+                                    <dt>Name</dt>
+                                    <dd>{{ item.name }}</dd>
+                                    <dt>Description</dt>
+                                    <dd>{{ item.description }}</dd>
+                                    <dt>Units</dt>
+                                    <dd>{{ item.units }}</dd>
+                                </dl>
+                            </dd>
                         </dl>
                     </li>
                 </template>

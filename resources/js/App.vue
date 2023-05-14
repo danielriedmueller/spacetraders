@@ -1,7 +1,6 @@
 <template>
     <div class="container">
         <h1>Space Traders</h1>
-        <a class="card-link text-muted" data-bs-toggle="collapse" href="#data" role="button" aria-expanded="false" aria-controls="data">Show Info</a>
         <div class="row gy-3 error" :class="error.length && 'd-block'">
             <div class="col-sm-12">
                 <div class="p-3 mb-3 text-bg-danger rounded-3">{{ error }}</div>
@@ -34,7 +33,7 @@ export default {
     mounted() {
         entityTypes.forEach(entity => {
             if (localStorage.getItem(entity)) {
-                this[entity] = JSON.parse(localStorage.getItem(entity));
+                //this[entity] = JSON.parse(localStorage.getItem(entity));
             }
         });
     },

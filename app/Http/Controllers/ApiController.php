@@ -62,7 +62,7 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function ship($symbol): object
+    public function ship(string $symbol): object
     {
         $cacheName = 'ship-' . $symbol;
         if ($cached = cache($cacheName)) {
@@ -70,38 +70,73 @@ class ApiController extends Controller
         }
 
         $ship = $this->fetcher->fetchEntity("my/ships/$symbol", Ship::class);
+        $actions = [
+            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
+            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
+            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
+            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
+        ];
         if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'DOCKED') {
-            $ship->actions = ['orbit' => "my/ships/$symbol/orbit"];
+            $actions['orbit'] = ["my/ships/$symbol/orbit", []];
         }
         if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'IN_ORBIT') {
-            $ship->actions = ['dock' => "my/ships/$symbol/dock"];
+            $actions['dock'] = ["my/ships/$symbol/dock", []];
         }
+        $ship->actions = $actions;
         cache([$cacheName => $ship]);
 
         return $ship;
     }
 
-    public function orbit($symbol): array
+    public function orbit(string $symbol): array
     {
-        $responseJSON = $this->deliverer->deliver("my/ships/$symbol/orbit", []);
+        $responseJSON = $this->deliverer->post("my/ships/$symbol/orbit", []);
         $responseJSON['ship'] = $responseJSON['data'];
-        $responseJSON['ship']['actions'] = ['dock' => "my/ships/$symbol/dock"];
+
+        $actions = [
+            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
+            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
+            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
+            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
+            'dock' => ["my/ships/$symbol/dock", []]
+        ];
+
+        $responseJSON['ship']['actions'] = $actions;
         unset($responseJSON['data']);
 
         return $responseJSON;
     }
 
-    public function dock($symbol): array
+    public function dock(string $symbol): array
     {
-        $responseJSON = $this->deliverer->deliver("my/ships/$symbol/dock", []);
+        $responseJSON = $this->deliverer->post("my/ships/$symbol/dock", []);
         $responseJSON['ship'] = $responseJSON['data'];
-        $responseJSON['ship']['actions'] = ['orbit' => "my/ships/$symbol/orbit"];
+
+        $actions = [
+            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
+            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
+            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
+            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
+            'orbit' => ["my/ships/$symbol/orbit", []],
+        ];
+
+        $responseJSON['ship']['actions'] = $actions;
         unset($responseJSON['data']);
 
         return $responseJSON;
     }
 
-    public function contract($symbol): object
+    public function setFlightMode(string $symbol): array
+    {
+        $flightMode = request()->get('flightMode');
+        $responseJSON = $this->deliverer->patch("my/ships/$symbol/nav", ['flightMode' => $flightMode]);
+        $responseJSON['ship']['nav'] = $responseJSON['data'];
+        unset($responseJSON['data']);
+
+        return $responseJSON;
+    }
+
+    public function contract(string $symbol): object
     {
         $cacheName = 'contract-' . $symbol;
         if ($cached = cache($cacheName)) {
@@ -118,7 +153,7 @@ class ApiController extends Controller
         return $item;
     }
 
-    public function acceptContract($symbol): void
+    public function acceptContract(string $symbol): void
     {
         // TODO: Implement acceptContract() method.
         //$this->deliverer->deliver("my/contracts/$symbol/accept", []);
@@ -127,7 +162,7 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function waypoint($symbol): object
+    public function waypoint(string $symbol): object
     {
         $cacheName = 'waypoint-' . $symbol;
         if ($cached = cache($cacheName)) {
@@ -152,7 +187,7 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function system($symbol): Object
+    public function system(string $symbol): Object
     {
         $cacheName = 'system-' . $symbol;
         if ($cached = cache($cacheName)) {
@@ -168,7 +203,7 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function shipyard($systemSymbol, $waypointSymbol): Object
+    public function shipyard(string $systemSymbol, string $waypointSymbol): Object
     {
         $cacheName = 'shipyard-' . $systemSymbol . '-' . $waypointSymbol;
         if ($cached = cache($cacheName)) {
@@ -184,7 +219,7 @@ class ApiController extends Controller
     /**
      * @throws InvalidRequestException
      */
-    public function market($systemSymbol, $waypointSymbol): Object
+    public function market(string $systemSymbol, string $waypointSymbol): Object
     {
         $cacheName = 'market-' . $systemSymbol . '-' . $waypointSymbol;
         if ($cached = cache($cacheName)) {
