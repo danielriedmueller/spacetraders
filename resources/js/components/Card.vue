@@ -103,7 +103,7 @@
                         <template v-if="entity.nav">
                             <dt>Current Location</dt>
                             <dd><a href="#"
-                                   @click.prevent="get('waypoint', entity.nav.waypoilntSymbol)"
+                                   @click.prevent="get('waypoint', entity.nav.waypointSymbol)"
                                    class="btn btn-secondary">{{ entity.nav.waypointSymbol }}</a></dd>
                             <dt>Status</dt>
                             <dd>{{ entity.nav.status }}</dd>
