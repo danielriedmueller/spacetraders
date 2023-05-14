@@ -4,10 +4,11 @@
             <h5 class="card-header text-center">{{ type.toUpperCase() }}</h5>
             <img v-if="entity.image" :src="entity.image" alt="Card image not found">
             <div class="card-body">
-                <div v-if="entity.imagePrompt" class="text-muted">{{ entity.imagePrompt }}</div>
-                <a class="card-link text-muted" data-bs-toggle="collapse" href="#data" role="button" aria-expanded="false" aria-controls="data">Data</a>
-                <div class="collapse" id="data">
-                    <pre>{{ entity }}</pre>
+                <div>
+                    <div class="collapse" id="data">
+                        <div v-if="entity.imagePrompt" class="text-muted">{{ entity.imagePrompt }}</div>
+                        <pre>{{ entity }}</pre>
+                    </div>
                 </div>
                 <h5 class="card-title">{{ entity.symbol }}</h5>
                 <div v-for="(item, key) in entity.actions">
@@ -16,6 +17,16 @@
                 </div>
             </div>
             <ul class="list-group list-group-flush">
+                <!-- ShipTypes -->
+                <template v-if="entity.shipTypes && entity.shipTypes.length > 0">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Ship Types</dt>
+                            <dd v-for="item in entity.shipTypes">{{ item.type }}</dd>
+                        </dl>
+                    </li>
+                </template>
+
                 <!-- Name -->
                 <template v-if="entity.name">
                     <li class="list-group-item">
@@ -159,10 +170,14 @@
                             <dt>Traits</dt>
                             <dd v-for="trait in entity.traits">
                                 <b>
-                                    <span v-if="trait.symbol === 'SHIPYARD'"><a href="#" @click.prevent="get('shipyard', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/shipyard`)" class="card-link">{{
+                                    <span v-if="trait.symbol === 'SHIPYARD'"><a href="#"
+                                                                                @click.prevent="get('shipyard', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/shipyard`)"
+                                                                                class="card-link">{{
                                             trait.name
                                         }}</a></span>
-                                    <span v-else-if="trait.symbol === 'MARKETPLACE'"><a href="#" @click.prevent="get('market', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/market`)" class="card-link">{{
+                                    <span v-else-if="trait.symbol === 'MARKETPLACE'"><a href="#"
+                                                                                        @click.prevent="get('market', `systems/${entity.systemSymbol}/waypoints/${entity.symbol}/market`)"
+                                                                                        class="card-link">{{
                                             trait.name
                                         }}</a></span>
                                     <span v-else>{{ trait.name }}</span>
@@ -192,7 +207,8 @@
                             <dt>Name</dt>
                             <dd>{{ entity.registration.name }}</dd>
                             <dt>Faction</dt>
-                            <dd><a href="#" @click.prevent="get('faction', `faction/${entity.registration.factionSymbol}`)"
+                            <dd><a href="#"
+                                   @click.prevent="get('faction', `faction/${entity.registration.factionSymbol}`)"
                                    class="card-link">{{ entity.registration.factionSymbol }}</a></dd>
                             <dt>Role</dt>
                             <dd>{{ entity.registration.role }}</dd>
@@ -252,7 +268,8 @@
                                     <dt>Trade</dt>
                                     <dd>{{ item.tradeSymbol }}</dd>
                                     <dt>Destination</dt>
-                                    <dd><a href="#" @click.prevent="get('waypoint', `waypoint/${item.destinationSymbol}`)"
+                                    <dd><a href="#"
+                                           @click.prevent="get('waypoint', `waypoint/${item.destinationSymbol}`)"
                                            class="card-link">{{ item.destinationSymbol }}</a></dd>
                                     <dt>Units required</dt>
                                     <dd>{{ item.unitsRequired }}</dd>
