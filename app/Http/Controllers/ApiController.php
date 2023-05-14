@@ -70,9 +70,25 @@ class ApiController extends Controller
         }
 
         $ship = $this->fetcher->fetchEntity("my/ships/$symbol", Ship::class);
+        if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'DOCKED') {
+            $ship->actions = ['orbit' => "my/ships/$symbol/orbit"];
+        }
+        if ($ship->nav['status'] === 'IN_TRANSIT' || $ship->nav['status'] === 'IN_ORBIT') {
+            $ship->actions = ['dock' => "my/ships/$symbol/dock"];
+        }
         cache([$cacheName => $ship]);
 
         return $ship;
+    }
+
+    public function orbit($symbol): array
+    {
+        return $this->deliverer->deliver("my/ships/$symbol/orbit", []);
+    }
+
+    public function dock($symbol): array
+    {
+        return $this->deliverer->deliver("my/ships/$symbol/dock", []);
     }
 
     public function contract($symbol): object
@@ -94,7 +110,7 @@ class ApiController extends Controller
 
     public function acceptContract($symbol): void
     {
-        $this->deliverer-> deliver("my/contracts/$symbol/accept", []);
+        $this->deliverer->deliver("my/contracts/$symbol/accept", []);
     }
 
     /**
