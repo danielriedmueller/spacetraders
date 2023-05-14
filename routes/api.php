@@ -19,3 +19,4 @@ Route::get('/faction/{symbol}', [ApiController::class, 'faction']);
 Route::get('/waypoint/{symbol}', [ApiController::class, 'waypoint']);
 Route::get('/system/{symbol}', [ApiController::class, 'system']);
 Route::get('/my/ships/{symbol}', [ApiController::class, 'ship']);
+Route::get('/systems/{systemSymbol}/waypoints/{waypointSymbol}/shipyard', [ApiController::class, 'shipyard']);

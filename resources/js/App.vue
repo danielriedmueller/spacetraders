@@ -1,12 +1,12 @@
 <template>
     <div class="container">
         <h1>Space Traders</h1>
-        <div class="row gy-3">
+        <div class="row gy-3" :class="{ loading }">
             <Card :entity="agent" @updateEntity="get" />
             <Card :entity="ship" @updateEntity="get" />
             <Card :entity="waypoint" @updateEntity="get" />
             <Card :entity="system" @updateEntity="get" />
-            <Card :entity="faction" @updateEntity="get" />
+            <Card :entity="shipyard" @updateEntity="get" />
         </div>
     </div>
 </template>
@@ -19,9 +19,11 @@ export default {
     data() {
         let data = {};
 
-        ['agent', 'waypoint', 'system', 'faction', 'ship'].forEach(entity => {
+        ['agent', 'waypoint', 'system', 'faction', 'ship', 'shipyard'].forEach(entity => {
             data[entity] = localStorage.getItem(entity) ? JSON.parse(localStorage.getItem(entity)) : {};
         });
+
+        data.loading = false;
 
         return data;
     },
@@ -33,10 +35,12 @@ export default {
             if (!endpoint) {
                 endpoint = type;
             }
+            this.loading = true;
             axios.get(`api/${endpoint}/${symbol}`).then(response => {
                 const data = response.data;
                 localStorage.setItem(type, JSON.stringify(data));
                 this[type] = data;
+                this.loading = false;
             });
         }
     }

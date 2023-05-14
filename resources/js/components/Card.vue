@@ -1,5 +1,5 @@
 <template>
-    <div v-if="entity.symbol" class="col-sm-12 col-md-6 col-xl-3">
+    <div ref="" v-if="entity.symbol" class="col-sm-12 col-md-6 col-xl-3">
         <div class="p-3 border bg-light">
             <div class="card">
                 <div class="card-body">
@@ -24,27 +24,27 @@
                         <!-- Headquarters -->
                         <template v-if="entity.headquarters">
                             <dt>Headquarters</dt>
-                            <dd><a href="#" @click="get('waypoint', entity.headquarters)"
+                            <dd><a href="#" @click.prevent="get('waypoint', entity.headquarters)"
                                    class="btn btn-secondary">{{ entity.headquarters }}</a></dd>
                         </template>
                         <!-- Faction -->
                         <template v-if="entity.faction && entity.faction.symbol">
                             <dt>Faction</dt>
-                            <dd><a href="#" @click="get('faction', entity.faction.symbol)"
+                            <dd><a href="#" @click.prevent="get('faction', entity.faction.symbol)"
                                    class="btn btn-secondary">{{ entity.faction.symbol }}</a></dd>
                         </template>
                         <!-- Factions -->
                         <template v-if="entity.factions && entity.factions.length > 0">
                             <dt>Factions</dt>
                             <dd v-for="faction in entity.factions">
-                                <a href="#" @click="get('faction', faction.symbol)"
+                                <a href="#" @click.prevent="get('faction', faction.symbol)"
                                    class="btn btn-secondary">{{ faction.symbol }}</a>
                             </dd>
                         </template>
                         <!-- System -->
                         <template v-if="entity.systemSymbol">
                             <dt>System</dt>
-                            <dd><a href="#" @click="get('system', entity.systemSymbol)"
+                            <dd><a href="#" @click.prevent="get('system', entity.systemSymbol)"
                                    class="btn btn-secondary">{{ entity.systemSymbol }}</a></dd>
                         </template>
                         <!-- Sector -->
@@ -62,7 +62,7 @@
                             <dt>Waypoints</dt>
                             <dd v-for="waypoint in entity.waypoints">
                                 <b>{{ waypoint.type }}</b>: <a href="#"
-                                                               @click="get('waypoint', waypoint.symbol)"
+                                                               @click.prevent="get('waypoint', waypoint.symbol)"
                                                                class="btn btn-secondary">{{ waypoint.symbol }}</a>
                             </dd>
                         </template>
@@ -70,7 +70,7 @@
                         <template v-if="entity.orbitals && entity.orbitals.length > 0">
                             <dt>Orbitals</dt>
                             <dd v-for="orbital in entity.orbitals">
-                                <a href="#" @click="get('waypoint', orbital.symbol)"
+                                <a href="#" @click.prevent="get('waypoint', orbital.symbol)"
                                    class="btn btn-secondary">{{ orbital.symbol }}</a>
                             </dd>
                         </template>
@@ -85,7 +85,7 @@
                         <template v-if="entity.ships && entity.ships.length > 0">
                             <dt>Ships</dt>
                             <dd v-for="ship in entity.ships">
-                                <a href="#" @click="get('ship', ship.symbol, 'my/ships')"
+                                <a href="#" @click.prevent="get('ship', ship.symbol, 'my/ships')"
                                    class="btn btn-secondary">{{ ship.symbol }}</a>
                             </dd>
                         </template>
@@ -94,7 +94,7 @@
                             <dt>Name</dt>
                             <dd>{{ entity.registration.name }}</dd>
                             <dt>Faction</dt>
-                            <dd><a href="#" @click="get('faction', entity.registration.factionSymbol)"
+                            <dd><a href="#" @click.prevent="get('faction', entity.registration.factionSymbol)"
                                    class="btn btn-secondary">{{ entity.registration.factionSymbol }}</a></dd>
                             <dt>Role</dt>
                             <dd>{{ entity.registration.role }}</dd>
@@ -103,7 +103,7 @@
                         <template v-if="entity.nav">
                             <dt>Current Location</dt>
                             <dd><a href="#"
-                                   @click="get('waypoint', entity.nav.waypoilntSymbol)"
+                                   @click.prevent="get('waypoint', entity.nav.waypoilntSymbol)"
                                    class="btn btn-secondary">{{ entity.nav.waypointSymbol }}</a></dd>
                             <dt>Status</dt>
                             <dd>{{ entity.nav.status }}</dd>

@@ -7,6 +7,7 @@ use App\Http\Request\EntityFetcher;
 use App\Models\Agent;
 use App\Models\Faction;
 use App\Models\Ship;
+use App\Models\Shipyard;
 use App\Models\System;
 use App\Models\Waypoint as WaypointModel;
 
@@ -104,6 +105,22 @@ class ApiController extends Controller
         }
 
         $system = $this->fetcher->fetchEntity("systems/$symbol", System::class);
+        cache([$cacheName => $system]);
+
+        return $system;
+    }
+
+    /**
+     * @throws InvalidRequestException
+     */
+    public function shipyard($systemSymbol, $waypointSymbol): Object
+    {
+        $cacheName = 'shipyard-' . $systemSymbol . '-' . $waypointSymbol;
+        if ($cached = cache($cacheName)) {
+            return $cached;
+        }
+
+        $system = $this->fetcher->fetchEntity("/systems/$systemSymbol/waypoints/$waypointSymbol/shipyard", Shipyard::class);
         cache([$cacheName => $system]);
 
         return $system;
