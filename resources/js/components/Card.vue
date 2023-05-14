@@ -4,6 +4,11 @@
             <h5 class="card-header text-center">{{ type.toUpperCase() }}</h5>
             <img v-if="entity.image" :src="entity.image" alt="Card image not found">
             <div class="card-body">
+                <div v-if="entity.imagePrompt" class="text-muted">{{ entity.imagePrompt }}</div>
+                <a class="card-link text-muted" data-bs-toggle="collapse" href="#data" role="button" aria-expanded="false" aria-controls="data">Data</a>
+                <div class="collapse" id="data">
+                    <pre>{{ entity }}</pre>
+                </div>
                 <h5 class="card-title">{{ entity.symbol }}</h5>
             </div>
             <ul class="list-group list-group-flush">

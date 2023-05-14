@@ -7,7 +7,7 @@ namespace App\Models;
 /**
  * ShipyardTransaction
  */
-class ShipyardTransaction extends EntityModel {
+class ShipyardTransaction {
 
     /** @var string $waypointSymbol The symbol of the waypoint where the transaction took place.*/
     public $waypointSymbol = "";

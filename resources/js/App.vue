@@ -32,7 +32,9 @@ export default {
     },
     mounted() {
         entityTypes.forEach(entity => {
-            this[entity] = localStorage.getItem(entity) ? JSON.parse(localStorage.getItem(entity)) : {};
+            if (localStorage.getItem(entity)) {
+                //this[entity] = JSON.parse(localStorage.getItem(entity));
+            }
         });
     },
     created() {

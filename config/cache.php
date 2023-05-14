@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('CACHE_DRIVER', 'redis'),
+    'default' => env('CACHE_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,6 +40,10 @@ return [
         'array' => [
             'driver' => 'array',
             'serialize' => false,
+        ],
+
+        'none' => [
+            'driver' => 'null',
         ],
 
         'database' => [

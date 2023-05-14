@@ -31,12 +31,14 @@ class EntityFactory
         if (is_a($entity, ImageModel::class)) {
             $imageName = $entity->getImageName();
             $imagePath = $this->imageStorage->getImage($imageName);
+            $imagePrompt = $entity->getImagePrompt();
             if (!$imagePath) {
-                if ($promptData = $entity->getImagePrompt()) {
+                if ($promptData = $imagePrompt) {
                     $imagePath = $this->imageStorage->getOrCreateImage($imageName, $promptData);
                 }
             }
             $entity->image = $imagePath;
+            $entity->imagePrompt = $imagePrompt;
         }
 
         return $entity;

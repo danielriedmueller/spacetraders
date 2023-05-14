@@ -8,7 +8,7 @@ namespace App\Models;
  * Agent
  * @description
  */
-class Agent extends EntityModel {
+class Agent extends ImageModel {
 
     /** @var string $accountId */
     public $accountId = "";
@@ -22,4 +22,13 @@ class Agent extends EntityModel {
     /** @var int $credits The number of credits the agent has available. Credits can be negative if funds have been overdrawn.*/
     public $credits = 0;
 
+    public function getImageName(): string
+    {
+        return 'agent-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
+    }
+
+    public function getImagePrompt(): string
+    {
+        return 'A spacefarer';
+    }
 }

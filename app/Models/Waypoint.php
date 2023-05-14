@@ -63,10 +63,9 @@ class Waypoint extends ImageModel
 
     public function getImagePrompt(): string
     {
-        $prompt = $this->type;
-        $prompt .= ' ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits));
-        $prompt .= ' ' . $this->faction->symbol;
+        $type = $this->type;
+        $traits = implode(', ', array_map(fn($trait) => $trait->name, $this->traits));
 
-        return $prompt;
+        return "A $type in space with following traits: $traits";
     }
 }

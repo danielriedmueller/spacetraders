@@ -18,7 +18,6 @@ class Shipyard extends ImageModel {
     /** @var \App\Models\ShipyardShipTypesInner[] $shipTypes The list of ship types available for purchase at this shipyard.*/
     public $shipTypes = [];
 
-    /** @var \App\Models\ShipyardTransaction[] $transactions The list of recent transactions at this shipyard.*/
     protected function transactions(): Attribute
     {
         return Attribute::make(
@@ -26,7 +25,6 @@ class Shipyard extends ImageModel {
         );
     }
 
-    /** @var \App\Models\ShipyardShip[] $ships The ships that are currently available for purchase at the shipyard.*/
     protected function ships(): Attribute
     {
         return Attribute::make(
@@ -41,10 +39,9 @@ class Shipyard extends ImageModel {
 
     public function getImagePrompt(): string
     {
-        $prompt = $this->type;
-        $prompt .= ' ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits));
-        $prompt .= ' ' . $this->faction->symbol;
+        //$shipCount = count($this->ships);
+        $shipCount = 0;
 
-        return $prompt;
+        return "Shipyard for spaceships in space with $shipCount ships docked";
     }
 }
