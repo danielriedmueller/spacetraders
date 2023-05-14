@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ImageModel extends Model
+class ImageModel extends EntityModel
 {
     /** @var string $image */
     public $image = "";
@@ -17,18 +17,6 @@ class ImageModel extends Model
     public function getImagePrompt(): string
     {
         return '';
-    }
-
-    protected function valueTransfomer(mixed $data, string $className): Object
-    {
-        $entity = new $className();
-        foreach ($data as $key => $value) {
-            if (property_exists($entity, $key) || method_exists($entity, $key)) {
-                $entity->$key = $value;
-            }
-        }
-
-        return $entity;
     }
 
     public function toArray(): array

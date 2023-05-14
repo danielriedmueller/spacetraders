@@ -43,7 +43,7 @@
                         <dl>
                             <dt>Headquarters</dt>
                             <dd><a href="#" @click.prevent="get('waypoint', entity.headquarters)"
-                                   class="btn btn-secondary">{{ entity.headquarters }}</a></dd>
+                                   class="card-link">{{ entity.headquarters }}</a></dd>
                         </dl>
                     </li>
                 </template>
@@ -54,7 +54,7 @@
                         <dl>
                             <dt>Faction</dt>
                             <dd><a href="#" @click.prevent="get('faction', entity.faction.symbol)"
-                                   class="btn btn-secondary">{{ entity.faction.symbol }}</a></dd>
+                                   class="card-link">{{ entity.faction.symbol }}</a></dd>
                         </dl>
                     </li>
                 </template>
@@ -66,7 +66,7 @@
                             <dt>Factions</dt>
                             <dd v-for="faction in entity.factions">
                                 <a href="#" @click.prevent="get('faction', faction.symbol)"
-                                   class="btn btn-secondary">{{ faction.symbol }}</a>
+                                   class="card-link">{{ faction.symbol }}</a>
                             </dd>
                         </dl>
                     </li>
@@ -78,7 +78,7 @@
                         <dl>
                             <dt>System</dt>
                             <dd><a href="#" @click.prevent="get('system', entity.systemSymbol)"
-                                   class="btn btn-secondary">{{ entity.systemSymbol }}</a></dd>
+                                   class="card-link">{{ entity.systemSymbol }}</a></dd>
                         </dl>
                     </li>
                 </template>
@@ -111,7 +111,7 @@
                             <dd v-for="waypoint in entity.waypoints">
                                 <b>{{ waypoint.type }}</b>: <a href="#"
                                                                @click.prevent="get('waypoint', waypoint.symbol)"
-                                                               class="btn btn-secondary">{{ waypoint.symbol }}</a>
+                                                               class="card-link">{{ waypoint.symbol }}</a>
                             </dd>
                         </dl>
                     </li>
@@ -124,7 +124,7 @@
                             <dt>Orbitals</dt>
                             <dd v-for="orbital in entity.orbitals">
                                 <a href="#" @click.prevent="get('waypoint', orbital.symbol)"
-                                   class="btn btn-secondary">{{ orbital.symbol }}</a>
+                                   class="card-link">{{ orbital.symbol }}</a>
                             </dd>
                         </dl>
                     </li>
@@ -149,7 +149,7 @@
                             <dt>Ships</dt>
                             <dd v-for="ship in entity.ships">
                                 <a href="#" @click.prevent="get('ship', ship.symbol, 'my/ships')"
-                                   class="btn btn-secondary">{{ ship.symbol }}</a>
+                                   class="card-link">{{ ship.symbol }}</a>
                             </dd>
                         </dl>
                     </li>
@@ -163,7 +163,7 @@
                             <dd>{{ entity.registration.name }}</dd>
                             <dt>Faction</dt>
                             <dd><a href="#" @click.prevent="get('faction', entity.registration.factionSymbol)"
-                                   class="btn btn-secondary">{{ entity.registration.factionSymbol }}</a></dd>
+                                   class="card-link">{{ entity.registration.factionSymbol }}</a></dd>
                             <dt>Role</dt>
                             <dd>{{ entity.registration.role }}</dd>
                         </dl>
@@ -172,12 +172,12 @@
 
                 <!-- ShipNavigation -->
                 <template v-if="entity.nav">
-                    <dt>Current Location</dt>
                     <li class="list-group-item">
                         <dl>
+                            <dt>Current Location</dt>
                             <dd><a href="#"
                                    @click.prevent="get('waypoint', entity.nav.waypointSymbol)"
-                                   class="btn btn-secondary">{{ entity.nav.waypointSymbol }}</a></dd>
+                                   class="card-link">{{ entity.nav.waypointSymbol }}</a></dd>
                             <dt>Status</dt>
                             <dd>{{ entity.nav.status }}</dd>
                             <dt>Flight mode</dt>
@@ -207,6 +207,9 @@
 
                 </template>
             </ul>
+            <div class="card-footer">
+                <small class="text-muted">Last updated {{ entity.updatedAt }}</small>
+            </div>
         </div>
     </div>
 </template>

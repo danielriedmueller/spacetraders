@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class EntityModel extends Model
 {
+    public string $updatedAt = '';
+
+    public function __construct()
+    {
+        $updatedAt = date('Y-m-d H:i:s');
+        $this->updatedAt = $updatedAt;
+
+        parent::__construct();
+    }
+
+
     protected function valueTransfomer(mixed $data, string $className): Object
     {
         $entity = new $className();

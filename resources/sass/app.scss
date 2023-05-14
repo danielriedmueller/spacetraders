@@ -26,6 +26,8 @@
 }
 
 .card {
-    height: 650px;
-    overflow-y: auto;
+    .list-group {
+        height: 500px;
+        overflow-y: auto;
+    }
 }
