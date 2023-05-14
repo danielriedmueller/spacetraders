@@ -70,16 +70,6 @@ class ApiController extends Controller
         }
 
         $ship = $this->fetcher->fetchEntity("my/ships/$symbol", Ship::class);
-        $actions = [
-            'drift' => ["my/ships/$symbol/nav", ['flightMode' => 'DRIFT']],
-            'stealth' => ["my/ships/$symbol/nav", ['flightMode' => 'STEALTH']],
-            'cruise' => ["my/ships/$symbol/nav", ['flightMode' => 'CRUISE']],
-            'burn' => ["my/ships/$symbol/nav", ['flightMode' => 'BURN']],
-            'orbit' => ["my/ships/$symbol/orbit", []],
-            'dock' => ["my/ships/$symbol/dock", []]
-        ];
-
-        $ship->actions = $actions;
         cache([$cacheName => $ship]);
 
         return $ship;
@@ -113,6 +103,17 @@ class ApiController extends Controller
         return $responseJSON;
     }
 
+    public function navigate(string $symbol): array
+    {
+        $waypointSymbol = request()->get('waypointSymbol');
+        $responseJSON = $this->deliverer->post("my/ships/$symbol/navigate", ['waypointSymbol' => $waypointSymbol]);
+        $responseJSON['ship']['nav'] = $responseJSON['data']['nav'];
+        $responseJSON['ship']['fuel'] = $responseJSON['data']['fuel'];
+        unset($responseJSON['data']);
+
+        return $responseJSON;
+    }
+
     public function contract(string $symbol): object
     {
         $cacheName = 'contract-' . $symbol;
@@ -121,9 +122,6 @@ class ApiController extends Controller
         }
 
         $item = $this->fetcher->fetchEntity("my/contracts/$symbol", Contract::class);
-        if (!$item->accepted) {
-            $item->actions = ['accept' => "my/contracts/$symbol/accept"];
-        }
 
         cache([$cacheName => $item]);
 

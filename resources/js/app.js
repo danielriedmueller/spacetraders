@@ -18,9 +18,7 @@ const app  = createApp({
 });
 
 import App from './App.vue';
-import Card from './components/Card.vue'
 app.component('home-component', App);
-app.component('card-component', Card);
 
 /**
  * The following block of code may be used to automatically register your

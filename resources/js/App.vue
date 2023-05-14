@@ -7,18 +7,28 @@
             </div>
         </div>
         <div class="row gy-3" :class="{ loading }">
-            <template v-for="entity in this.entityTypes">
-                <Card :entity="this[entity]" :type="entity" @get="get" @post="post" />
-            </template>
+            <Agent :entity="agent" @get="get" @post="post" />
+            <Ship :entity="ship" @get="get" @post="post" />
+            <Waypoint :entity="waypoint" :ship="ship" @get="get" @post="post" />
+            <Shipyard :entity="shipyard" @get="get" @post="post" />
+            <Marketplace :entity="market" @get="get" @post="post" />
+            <System :entity="system" @get="get" @post="post" />
+            <Contract :entity="contract" @get="get" @post="post" />
         </div>
     </div>
 </template>
 <script>
 
-import Card from "./components/Card.vue";
+import Agent from "./components/Agent.vue";
+import Waypoint from "./components/Waypoint.vue";
+import Ship from "./components/Ship.vue";
+import Shipyard from "./components/Shipyard.vue";
+import Marketplace from "./components/Marketplace.vue";
+import System from "./components/System.vue";
+import Contract from "./components/Contract.vue";
 const entityTypes = ['agent', 'ship', 'shipyard', 'market', 'waypoint', 'system', 'faction', 'contract'];
 export default {
-    components: {Card},
+    components: {Contract, System, Marketplace, Shipyard, Ship, Waypoint, Agent},
     data() {
         return {
             entityTypes,

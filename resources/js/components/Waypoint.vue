@@ -1,0 +1,124 @@
+<template>
+    <div v-if="entity.symbol" class="col-sm-12 col-md-6 col-xl-3">
+        <div class="card">
+            <h5 class="card-header text-center">Waypoint</h5>
+            <img v-if="entity.image" :src="entity.image" alt="Card image not found">
+            <div class="card-body">
+                <div>
+                    <a class="card-link text-muted" data-bs-toggle="collapse" :href="'#' + entity.symbol" role="button">Show
+                        Info</a>
+                    <div class="collapse" :id="entity.symbol">
+                        <div v-if="entity.imagePrompt" class="text-muted">{{ entity.imagePrompt }}</div>
+                        <pre>{{ entity }}</pre>
+                    </div>
+                </div>
+                <h5 class="card-title">{{ entity.symbol }}</h5>
+                <div v-for="(item, key) in entity.actions">
+                    <a href="#" @click.prevent="post(item[0], item[1])"
+                       class="btn btn-primary">{{ key }}</a>
+                </div>
+                <template v-if="ship.nav">
+                    <button v-if="ship.nav.waypointSymbol !== entity.symbol" @click.prevent="post(`my/ships/${ship.symbol}/navigate`, {'waypointSymbol': entity.symbol})" class="btn btn-primary">Navigate</button>
+                </template>
+            </div>
+            <ul class="list-group list-group-flush">
+                <!-- Faction -->
+                <template v-if="entity.factionSymbol">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Faction</dt>
+                            <dd><a href="#" @click.prevent="get(`faction/${entity.factionSymbol}`)"
+                                   class="card-link">{{ entity.factionSymbol }}</a></dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- System -->
+                <template v-if="entity.systemSymbol">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>System</dt>
+                            <dd><a href="#" @click.prevent="get(`system/${entity.systemSymbol}`)"
+                                   class="card-link">{{ entity.systemSymbol }}</a></dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Sector -->
+                <template v-if="entity.sectorSymbol">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Sector</dt>
+                            <dd>{{ entity.sectorSymbol }}</dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Type -->
+                <template v-if="entity.type">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Type</dt>
+                            <dd>{{ entity.type }}</dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Orbitals -->
+                <template v-if="entity.orbitals && entity.orbitals.length > 0">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Orbitals</dt>
+                            <dd v-for="orbital in entity.orbitals">
+                                <a href="#" @click.prevent="get(`waypoint/${orbital.symbol}`)"
+                                   class="card-link">{{ orbital.symbol }}</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </template>
+
+                <!-- Traits -->
+                <template v-if="entity.traits && entity.traits.length > 0">
+                    <li class="list-group-item">
+                        <dl>
+                            <dt>Traits</dt>
+                            <dd v-for="trait in entity.traits">
+                                <b>
+                                    <span v-if="trait.symbol === 'SHIPYARD'"><a href="#"
+                                                                                @click.prevent="get(`systems/${entity.systemSymbol}/waypoints/${entity.symbol}/shipyard`)"
+                                                                                class="card-link">{{
+                                            trait.name
+                                        }}</a></span>
+                                    <span v-else-if="trait.symbol === 'MARKETPLACE'"><a href="#"
+                                                                                        @click.prevent="get(`systems/${entity.systemSymbol}/waypoints/${entity.symbol}/market`)"
+                                                                                        class="card-link">{{
+                                            trait.name
+                                        }}</a></span>
+                                    <span v-else>{{ trait.name }}</span>
+                                </b>: {{ trait.description }}
+                            </dd>
+                        </dl>
+                    </li>
+                </template>
+            </ul>
+            <div class="card-footer">
+                <small class="text-muted">Last updated {{ entity.updatedAt }}</small>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    props: ['entity', 'ship'],
+    emits: ['get', 'post'],
+    methods: {
+        get: function (url) {
+            this.$emit('get', url);
+        },
+        post: function (url, data) {
+            this.$emit('post', url, data);
+        },
+    },
+}
+</script>
