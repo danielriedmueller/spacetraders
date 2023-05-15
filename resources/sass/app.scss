@@ -36,9 +36,23 @@ html, body {
     --bs-accordion-body-padding-y: 0;
 }
 
+.accordion-button img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    object-fit: cover;
+    object-position: top;
+    z-index: -1;
+}
+
 #app .card {
     --bs-card-border-radius: 0;
     --bs-card-bg: var(--bs-primary);
+
+    img {
+        margin-top: -53px;
+    }
 }
 
 #app .list-group-item {

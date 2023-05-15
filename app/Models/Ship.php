@@ -57,8 +57,7 @@ class Ship extends ImageModel {
     {
         return [
             'name' => 'ship/ship-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
-            'prompt' => 'Spaceship with role ' . $this->registration['role'],
-            'size' => 220,
+            'prompt' => 'Spaceship with role ' . $this->registration['role']
         ];
     }
 }

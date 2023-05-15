@@ -26,8 +26,7 @@ class Agent extends ImageModel {
     {
         return [
             'name' => 'agent/agent-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
-            'prompt' => 'Portrait of a spacefarer',
-            'size' => 25,
+            'prompt' => 'a realistic photo of a scifi spaceship pilot'
         ];
     }
 }

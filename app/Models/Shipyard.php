@@ -36,8 +36,7 @@ class Shipyard extends ImageModel {
     {
         return [
             'name' => 'shipyard/shipyard-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
-            'prompt' => "Shipyard for spaceships in space with" . count($this->ships) . " ships docked",
-            'size' => 220,
+            'prompt' => "Shipyard for spaceships in space with" . count($this->ships) . " ships docked"
         ];
     }
 }

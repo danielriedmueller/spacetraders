@@ -3,6 +3,7 @@
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     :data-bs-target="'#collapse-' + entity.class" aria-expanded="false">
+                <img v-if="entity.image" :src="entity.image" alt="Card image not found">
                 {{ entity.symbol }}<span class="ms-3 badge bg-secondary">{{ entity.class }}</span>
             </button>
         </h2>

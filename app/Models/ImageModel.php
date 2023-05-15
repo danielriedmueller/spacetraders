@@ -12,8 +12,7 @@ class ImageModel extends EntityModel
     {
         return [
             'name' => '',
-            'prompt' => '',
-            'size' => 0,
+            'prompt' => ''
         ];
     }
 }

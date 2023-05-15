@@ -35,8 +35,7 @@ class Faction extends ImageModel {
     {
         return [
             'name' => 'faction/faction-' . str_replace(' ', '-', strtolower($this->name)) . '.png',
-            'prompt' => 'Faction ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits)),
-            'size' => 220,
+            'prompt' => 'Faction ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits))
         ];
     }
 }

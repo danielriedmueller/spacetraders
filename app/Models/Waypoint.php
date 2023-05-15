@@ -60,8 +60,7 @@ class Waypoint extends ImageModel
     {
         return [
             'name' => 'waypoint/waypoint-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
-            'prompt' => $this->createImagePrompt(),
-            'size' => 220,
+            'prompt' => $this->createImagePrompt()
         ];
     }
 

@@ -33,10 +33,9 @@ class EntityFactory
             $imageName = $imageConfig['name'];
             $imagePath = $this->imageStorage->getImage($imageName);
             $imagePrompt = $imageConfig['prompt'];
-            $imageSize = $imageConfig['size'];
             if (!$imagePath) {
                 if ($promptData = $imagePrompt) {
-                    $imagePath = $this->imageStorage->getOrCreateImage($imageName, $promptData, $imageSize);
+                    $imagePath = $this->imageStorage->getOrCreateImage($imageName, $promptData);
                 }
             }
             $entity->image = $imagePath;

@@ -23,10 +23,10 @@ class ImageStorage
     /**
      * @throws InvalidRequestException
      */
-    public function getOrCreateImage(string $filename, string $prompt, int $size = 256): string
+    public function getOrCreateImage(string $filename, string $prompt): string
     {
         if (!Storage::disk('public')->exists($filename)) {
-            $imageUrl = $this->imageFetcher->fetchImage($prompt, $size);
+            $imageUrl = $this->imageFetcher->fetchImage($prompt, 256);
             $this->store(file_get_contents($imageUrl), $filename);
         }
 
