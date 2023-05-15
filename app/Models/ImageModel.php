@@ -8,13 +8,12 @@ class ImageModel extends EntityModel
     public $image = "";
     public $imagePrompt = "";
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return '';
-    }
-
-    public function getImagePrompt(): string
-    {
-        return '';
+        return [
+            'name' => '',
+            'prompt' => '',
+            'size' => 0,
+        ];
     }
 }

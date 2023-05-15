@@ -32,16 +32,12 @@ class Shipyard extends ImageModel {
         );
     }
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return 'shipyard/shipyard-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
-    }
-
-    public function getImagePrompt(): string
-    {
-        //$shipCount = count($this->ships);
-        $shipCount = 0;
-
-        return "Shipyard for spaceships in space with $shipCount ships docked";
+        return [
+            'name' => 'shipyard/shipyard-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
+            'prompt' => "Shipyard for spaceships in space with" . count($this->ships) . " ships docked",
+            'size' => 220,
+        ];
     }
 }

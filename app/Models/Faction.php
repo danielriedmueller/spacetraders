@@ -31,13 +31,12 @@ class Faction extends ImageModel {
         );
     }
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return 'faction/faction-' . str_replace(' ', '-', strtolower($this->name)) . '.png';
-    }
-
-    public function getImagePrompt(): string
-    {
-        return 'Faction ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits));
+        return [
+            'name' => 'faction/faction-' . str_replace(' ', '-', strtolower($this->name)) . '.png',
+            'prompt' => 'Faction ' . implode(' ', array_map(fn($trait) => $trait->name, $this->traits)),
+            'size' => 220,
+        ];
     }
 }

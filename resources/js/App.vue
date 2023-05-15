@@ -1,21 +1,11 @@
 <template>
-    <div class="container">
-        <h1>Space Traders</h1>
-        <div class="row gy-3 error" :class="error.length && 'd-block'">
-            <div class="col-sm-12">
-                <div class="p-3 mb-3 text-bg-danger rounded-3">{{ error }}</div>
-            </div>
+    <div class="row gy-3 error" :class="error.length && 'd-block'">
+        <div class="col-sm-12">
+            <div class="p-3 mb-3 text-bg-danger rounded-3">{{ error }}</div>
         </div>
-        <div class="row gy-3" :class="{ loading }">
-            <Agent :entity="agent" @get="get" @post="post" />
-            <Ship :entity="ship" @get="get" @post="post" />
-            <Waypoint :entity="waypoint" :ship="ship" @get="get" @post="post" />
-            <Shipyard :entity="shipyard" @get="get" @post="post" />
-            <Marketplace :entity="market" @get="get" @post="post" />
-            <System :entity="system" @get="get" @post="post" />
-            <Contract :entity="contract" @get="get" @post="post" />
-            <Faction :entity="faction" @get="get" @post="post" />
-        </div>
+    </div>
+    <div class="accordion" id="accordion">
+        <Item v-for="entity in entityTypes" :entity="this[entity]" @get="get" @post="post"/>
     </div>
 </template>
 <script>
@@ -28,9 +18,11 @@ import Marketplace from "./components/Marketplace.vue";
 import System from "./components/System.vue";
 import Contract from "./components/Contract.vue";
 import Faction from "./components/Faction.vue";
+import Item from "./components/Item.vue";
+
 const entityTypes = ['agent', 'ship', 'shipyard', 'market', 'waypoint', 'system', 'faction', 'contract'];
 export default {
-    components: {Faction, Contract, System, Marketplace, Shipyard, Ship, Waypoint, Agent},
+    components: {Item, Faction, Contract, System, Marketplace, Shipyard, Ship, Waypoint, Agent},
     data() {
         return {
             entityTypes,
@@ -45,7 +37,7 @@ export default {
     mounted() {
         entityTypes.forEach(entity => {
             if (localStorage.getItem(entity)) {
-               this[entity] = JSON.parse(localStorage.getItem(entity));
+                this[entity] = JSON.parse(localStorage.getItem(entity));
             }
         });
     },

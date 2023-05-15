@@ -1,7 +1,6 @@
 <template>
     <div v-if="entity.symbol" class="col-sm-12 col-md-6 col-xl-3">
         <div class="card">
-            <h5 class="card-header text-center">Contract</h5>
             <img v-if="entity.image" :src="entity.image" alt="Card image not found">
             <div class="card-body">
                 <div>

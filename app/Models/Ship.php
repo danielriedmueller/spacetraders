@@ -53,17 +53,12 @@ class Ship extends ImageModel {
         );
     }
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return 'ship/ship-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
+        return [
+            'name' => 'ship/ship-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
+            'prompt' => 'Spaceship with role ' . $this->registration['role'],
+            'size' => 220,
+        ];
     }
-
-    public function getImagePrompt(): string
-    {
-        $prompt = 'Spaceship';
-        $prompt .= ' ' . $this->registration['role'];
-
-        return $prompt;
-    }
-
 }

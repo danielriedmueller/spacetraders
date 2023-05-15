@@ -7,15 +7,44 @@
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
-/**
-#app .btn {
-    --bs-btn-color: #B37414;
-    --bs-btn-padding-x: 0;
-    --bs-btn-padding-y: 0;
-    --bs-btn-border-width: 0;
+html, body {
+    background-color: var(--bs-primary);
 }
 
- */
+:root {
+    --bs-primary: #363034;
+    --bs-secondary: #EEC210;
+    --bs-light: #FFFFFF;
+    --bs-orange: #C77945;
+    --bs-link-color: var(--bs-pink);
+}
+
+#app .accordion {
+    --bs-accordion-inner-border-radius: 0;
+    --bs-accordion-border-radius: 0;
+    --bs-accordion-bg: var(--bs-orange);
+    --bs-accordion-color: var(--bs-light);
+    --bs-accordion-btn-color: var(--bs-light);
+    --bs-accordion-active-bg: var(--bs-primary);
+    --bs-accordion-active-color: var(--bs-light);
+    --bs-accordion-border-color: var(--bs-primary);
+    --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    --bs-accordion-btn-focus-border-color: #C77945;
+    --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(199, 121, 69, 0.25);
+    --bs-accordion-body-padding-x: 0;
+    --bs-accordion-body-padding-y: 0;
+}
+
+#app .card {
+    --bs-card-border-radius: 0;
+    --bs-card-bg: var(--bs-primary);
+}
+
+#app .list-group-item {
+    --bs-list-group-color: var(--bs-light);
+    --bs-list-group-bg: var(--bs-primary);
+}
 
 .loading {
     opacity: 0.3;
@@ -23,11 +52,4 @@
 
 .error {
     display: none;
-}
-
-.card {
-    .list-group {
-        height: 300px;
-        overflow-y: auto;
-    }
 }

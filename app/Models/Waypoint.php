@@ -56,12 +56,16 @@ class Waypoint extends ImageModel
         );
     }
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return 'waypoint/waypoint-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
+        return [
+            'name' => 'waypoint/waypoint-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
+            'prompt' => $this->createImagePrompt(),
+            'size' => 220,
+        ];
     }
 
-    public function getImagePrompt(): string
+    private function createImagePrompt(): string
     {
         $type = $this->type;
         $traits = implode(', ', array_map(fn($trait) => $trait->name, $this->traits));

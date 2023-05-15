@@ -22,13 +22,12 @@ class Agent extends ImageModel {
     /** @var int $credits The number of credits the agent has available. Credits can be negative if funds have been overdrawn.*/
     public $credits = 0;
 
-    public function getImageName(): string
+    public function getImageConfig(): array
     {
-        return 'agent-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png';
-    }
-
-    public function getImagePrompt(): string
-    {
-        return 'A spacefarer';
+        return [
+            'name' => 'agent/agent-' . str_replace(' ', '-', strtolower($this->symbol)) . '.png',
+            'prompt' => 'Portrait of a spacefarer',
+            'size' => 25,
+        ];
     }
 }

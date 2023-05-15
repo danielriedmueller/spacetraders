@@ -1,7 +1,6 @@
 <template>
     <div v-if="entity.symbol" class="col-sm-12 col-md-6 col-xl-3">
         <div class="card">
-            <h5 class="card-header text-center">Waypoint</h5>
             <img v-if="entity.image" :src="entity.image" alt="Card image not found">
             <div class="card-body">
                 <div>
@@ -17,7 +16,7 @@
                     <a href="#" @click.prevent="post(item[0], item[1])"
                        class="btn btn-primary">{{ key }}</a>
                 </div>
-                <template v-if="ship.nav">
+                <template v-if="ship && ship.nav">
                     <button v-if="ship.nav.waypointSymbol !== entity.symbol" @click.prevent="post(`my/ships/${ship.symbol}/navigate`, {'waypointSymbol': entity.symbol})" class="btn btn-primary">Navigate</button>
                 </template>
             </div>
