@@ -1,9 +1,15 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
-    base: 'https://foo.com/',
+    server: {
+        host: '192.168.188.44',
+        https: false,
+        cors: false,
+        hmr: false,
+        port: 8000
+    },
     plugins: [
         laravel({
             input: [
@@ -15,8 +21,8 @@ export default defineConfig({
         vue({
             template: {
                 transformAssetUrls: {
-                    base: 'https://foo.com/',
-                    includeAbsolute: true,
+                    base: null,
+                    includeAbsolute: false,
                 },
             },
         }),
