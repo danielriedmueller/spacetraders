@@ -27,6 +27,23 @@
                         </dl>
                     </li>
                 </template>
+
+                <!-- Transactions -->
+                <template v-if="entity.transactions && entity.transactions.length > 0">
+                    <li class="list-group-item">
+                        <h4>Transactions</h4>
+                        <dl v-for="item in entity.transactions">
+                            <dt>Ship</dt>
+                            <dd>{{ item.shipSymbol }}</dd>
+                            <dt>Price</dt>
+                            <dd>{{ $f.credits(item.price) }}</dd>
+                            <dt>Agent</dt>
+                            <dd>{{ item.agentSymbol }}</dd>
+                            <dt>Date</dt>
+                            <dd>{{ $f.date(item.timestamp)}}</dd>
+                        </dl>
+                    </li>
+                </template>
             </ul>
             <div class="card-footer">
                 <small class="text-muted">Last updated {{ entity.updatedAt }}</small>

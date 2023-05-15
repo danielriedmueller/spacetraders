@@ -17,6 +17,16 @@ const app  = createApp({
     render: ()=>h(App)
 });
 
+app.config.globalProperties.$f = {
+    date(value) {
+        const date = new Date(value);
+        return date.toLocaleString("de-DE");
+    },
+    credits(value) {
+        return value.toLocaleString("de-DE", {style: "currency", currency: "JPY"});
+    }
+}
+
 import App from './App.vue';
 app.component('home-component', App);
 
