@@ -14,6 +14,7 @@
             <Marketplace :entity="market" @get="get" @post="post" />
             <System :entity="system" @get="get" @post="post" />
             <Contract :entity="contract" @get="get" @post="post" />
+            <Faction :entity="faction" @get="get" @post="post" />
         </div>
     </div>
 </template>
@@ -26,9 +27,10 @@ import Shipyard from "./components/Shipyard.vue";
 import Marketplace from "./components/Marketplace.vue";
 import System from "./components/System.vue";
 import Contract from "./components/Contract.vue";
+import Faction from "./components/Faction.vue";
 const entityTypes = ['agent', 'ship', 'shipyard', 'market', 'waypoint', 'system', 'faction', 'contract'];
 export default {
-    components: {Contract, System, Marketplace, Shipyard, Ship, Waypoint, Agent},
+    components: {Faction, Contract, System, Marketplace, Shipyard, Ship, Waypoint, Agent},
     data() {
         return {
             entityTypes,
@@ -43,12 +45,19 @@ export default {
     mounted() {
         entityTypes.forEach(entity => {
             if (localStorage.getItem(entity)) {
-                //this[entity] = JSON.parse(localStorage.getItem(entity));
+               // this[entity] = JSON.parse(localStorage.getItem(entity));
             }
         });
     },
     created() {
-        axios.get('api/agent').then(response => this.agent = response.data);
+        if (!localStorage.getItem('foo')) {
+            this.loading = true;
+            axios.get('api/agent').then(response => {
+                this.loading = false;
+                this.agent = response.data;
+                localStorage.setItem('agent', JSON.stringify(this.agent));
+            });
+        }
     },
     methods: {
         get(url) {

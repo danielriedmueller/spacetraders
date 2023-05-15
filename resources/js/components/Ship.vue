@@ -17,18 +17,18 @@
                         class="btn btn-primary">Orbit
                 </button>
                 <template v-if="entity.nav.status !== 'DOCKED'">
-                    <button @click.prevent="post(`my/ships/${entity.symbol}/dock`)" class="btn btn-primary">Dock</button>
+                    <button @click.prevent="post(`my/ships/${entity.symbol}/dock`)" class="btn btn-primary me-3">Dock</button>
                     <button v-if="entity.nav.flightMode !== 'BURN'"
                             @click.prevent="post(`my/ships/${entity.symbol}/nav`, {'flightMode': 'BURN'})"
-                            class="btn btn-secondary">Burn
+                            class="btn btn-secondary me-1">Burn
                     </button>
                     <button v-if="entity.nav.flightMode !== 'CRUISE'"
                             @click.prevent="post(`my/ships/${entity.symbol}/nav`, {'flightMode': 'CRUISE'})"
-                            class="btn btn-secondary">Cruise
+                            class="btn btn-secondary me-1">Cruise
                     </button>
                     <button v-if="entity.nav.flightMode !== 'DRIFT'"
                             @click.prevent="post(`my/ships/${entity.symbol}/nav`, {'flightMode': 'DRIFT'})"
-                            class="btn btn-secondary">Drift
+                            class="btn btn-secondary me-1">Drift
                     </button>
                     <button v-if="entity.nav.flightMode !== 'STEALTH'"
                             @click.prevent="post(`my/ships/${entity.symbol}/nav`, {'flightMode': 'STEALTH'})"
